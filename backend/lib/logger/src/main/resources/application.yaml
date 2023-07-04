@@ -1,0 +1,6 @@
+logging:
+  level:
+    root: info
+    org.springframework.security: trace
+    com.finance.logger: debug
+
