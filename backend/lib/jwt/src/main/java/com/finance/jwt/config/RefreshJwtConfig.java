@@ -2,9 +2,9 @@ package com.finance.jwt.config;
 
 import com.finance.jwt.config.token.TokenMetadata;
 import com.finance.jwt.resolver.RefreshTokenResolver;
-import com.finance.jwt.security.refresh.CommonRefreshSessionService;
 import com.finance.jwt.security.refresh.RefreshSessionRepository;
 import com.finance.jwt.security.refresh.RefreshSessionService;
+import com.finance.jwt.security.refresh.RefreshSessionServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -28,7 +28,7 @@ public class RefreshJwtConfig {
 
   @Bean
   public RefreshSessionService refreshSessionService(RefreshSessionRepository refreshSessionRepository) {
-    return new CommonRefreshSessionService(refreshSessionRepository);
+    return new RefreshSessionServiceImpl(refreshSessionRepository);
   }
 
   @Bean

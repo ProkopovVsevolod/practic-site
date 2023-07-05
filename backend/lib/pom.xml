@@ -16,6 +16,8 @@
 
   <modules>
     <module>logger</module>
+    <module>jwt</module>
+    <module>exception</module>
   </modules>
 
   <properties>

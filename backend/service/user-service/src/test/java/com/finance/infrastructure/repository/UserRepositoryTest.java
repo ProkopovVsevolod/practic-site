@@ -4,19 +4,17 @@ import com.finance.domain.Role;
 import com.finance.domain.User;
 import com.finance.infrastructure.log.LoggerConfig;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @Import(LoggerConfig.class)
-@ExtendWith(SpringExtension.class)
 class UserRepositoryTest {
 
   @Autowired

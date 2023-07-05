@@ -11,7 +11,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @Table(name = "refresh_session", uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"userId", "userIp", "userBrowserFingerPrint"})
+  @UniqueConstraint(name = "unique_user_id_ip_fingerprint", columnNames = {"userId", "userIp", "userBrowserFingerPrint"})
 })
 public class RefreshSession {
 
