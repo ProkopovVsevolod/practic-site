@@ -4,11 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RefreshSessionRepository extends JpaRepository<RefreshSession, Long> {
   List<RefreshSession> findByUserId(Long userId);
 
-  RefreshSession findByRefreshToken(String refreshToken);
+  Optional<RefreshSession> findByRefreshToken(String refreshToken);
 
   void deleteAllByUserId(Long userId);
 
