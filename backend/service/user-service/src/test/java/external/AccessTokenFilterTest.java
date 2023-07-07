@@ -44,7 +44,7 @@ public class AccessTokenFilterTest {
     tokenFilter = securityFilterChain.getFilters().stream()
       .filter(filter -> filter.getClass().equals(AccessTokenFilter.class))
       .findAny()
-      .orElseThrow(() -> new RuntimeException("AccetTokenFilter not present in SecurityFilterChain"));
+      .orElseThrow(() -> new RuntimeException("AccessTokenFilter not present in SecurityFilterChain"));
   }
 
   @Test
