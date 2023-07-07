@@ -1,0 +1,127 @@
+* [33m85330b3[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Made some part of frontend
+* [33m9f385dd[m Initialize project using Create React App
+* [33mf2b9ac5[m[33m ([m[1;31morigin/19-budget-service[m[33m)[m Added budget controller
+* [33me97a7e6[m Added expense controller
+* [33ma8b7ec5[m Added income controller
+* [33mfc2d9af[m Added dtos mappers
+* [33m4bc19dc[m Added dtos
+* [33mc555c30[m Added exception handling to controllers
+* [33m8d4d370[m Added extends of DependentByUserCrudService
+* [33m2a64367[m Added abstract implement DependentByUserCrudService of CrudService
+* [33m21b0f22[m Added extends of crud service interface
+* [33m7c98195[m Added base crud service contract
+* [33me79e7d2[m Added session caller implements
+* [33m3005e14[m Added repositories of domain
+* [33mbc0d026[m Added base interface for interacting with the database through sessions
+* [33mb7211b4[m Added base DependentByUserRepository
+* [33mc6680e8[m Added logger to budget-service
+* [33m1a69881[m Added byName to Period
+* [33m2e63cb5[m Added base dependent by user entity class
+* [33m5bb6ad5[m Added constructors, set fetchType to Eager of operations and plans
+* [33meebc763[m Added base plan class of income and expense plans
+* [33m856cd78[m Added base operation class of income and expense
+* [33m603816f[m Moved income and expense domain files
+* [33m4bd3b39[m Changed currency from class to enum
+* [33mb05bcc9[m Added SecurityConfig to budget-service
+* [33m6f36096[m Added EntityScan and EnableJpaRepositories
+* [33meffd27f[m Added test of integration with access jwt config to budget-service
+* [33m2964a0b[m Added synchronized to TokenMetadata setSecret
+* [33mb678dae[m Added userId to OpenJwtToken
+* [33mf778bc8[m Fixed SecurityContextHolder bug
+* [33m74a2b36[m Added user id claim to access token generator
+* [33me821f41[m Added equals, hashcode and toString to user
+* [33m9b71438[m Moved ExceptionHandlerConfig
+* [33m6a33ec8[m Fixed basePackages names of EntityScan in user-service
+* [33m3ddb4c7[m Added UserDetailsService to test context in user-service
+* [33m042e084[m Fixed exception message
+* [33m7bd9013[m Removed repository test from user-service due to simplicity
+* [33mbb005db[m Moved logger config to services
+*   [33mf8834b2[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m Merge pull request #21 from ProkopovVsevolod/17-budget-domain
+[33m|[m[34m\[m  
+[33m|[m * [33me86dc97[m Added budget entity
+[33m|[m * [33m90fbeaa[m Added period
+[33m|[m * [33m8a37de7[m Added income subdomain
+[33m|[m * [33m94e7bd4[m Added expense subdomain
+[33m|[m * [33m2201bec[m Added amount subdomain
+[33m|[m * [33m4dbcbec[m Added start elements
+[33m|[m * [33me0f6c1e[m Init budget-service
+[33m|[m * [33m90bb028[m Moved files in user-service
+[33m|[m[33m/[m  
+*   [33m909ab75[m Merge pull request #16 from ProkopovVsevolod/6-user-service
+[35m|[m[36m\[m  
+[35m|[m * [33m9b9e23f[m Added dependencies of: lib, security, validation and testing
+[35m|[m * [33m5447804[m Added EntityScan and EnableJpaRepositories annotations to user service
+[35m|[m * [33m65c0c2e[m Added mappers
+[35m|[m * [33m536a51f[m Added Dtos
+[35m|[m * [33me7377ef[m Added UserController
+[35m|[m * [33m6aa3730[m Added AuthController
+[35m|[m * [33mad70250[m Added view config to append ExceptionHandler from lib
+[35m|[m * [33m04bbdc0[m Added SecurityConfig
+[35m|[m * [33mb793234[m Added setup user with event listener to auto data load in db
+[35m|[m * [33m2847aa5[m Added user service
+[35m|[m * [33m8f10f2b[m Added findUserByEmail to user repository
+[35m|[m * [33m6e29509[m Added UserDetailsExtend contract to User
+[35m|[m * [33m583468a[m Added test jwt token property
+[35m|[m * [33m6f7a2bd[m Added SecurityChainTest
+[35m|[m * [33m05dbcf1[m Added AccessTokenFilterTest
+[35m|[m * [33maab90f7[m Added ExcludedContextTest with context config
+[35m|[m * [33me97a201[m Added UserRepositoryTest
+[35m|[m * [33mde1b6af[m Added swagger auto documentation to all services
+[35m|[m * [33m73f87e2[m Added modules to lib super pom
+[35m|[m * [33md2bce9a[m Changed CommonRefreshSessionService -> RefreshSessionServiceImpl name
+[35m|[m * [33m4efe681[m Added authentication general config
+[35m|[m * [33m744634f[m Changed find result to Optional from RefreshSessionRepository
+[35m|[m * [33m8cab254[m Named constraint of unique user id, ip and fingerprint
+[35m|[m * [33meef28e1[m Changed contract of authenticate id providing
+[35m|[m * [33m8ffd1e0[m Separated authentication logic from RefreshSessionService to AuthenticationService
+[35m|[m * [33m81fbc91[m Added config to Component scan all exception handlers
+[35m|[m * [33m9c00b97[m Added controller advice to handling exceptions
+[35m|[m * [33ma256f1a[m Added IllegalTokenException
+[35m|[m * [33m534d203[m Added exception library
+[35m|[m[35m/[m  
+*   [33m0606179[m Merge pull request #15 from ProkopovVsevolod/8-security-config
+[1;31m|[m[1;32m\[m  
+[1;31m|[m * [33mdc977c9[m Added Refresh configuration to export
+[1;31m|[m * [33m09ed272[m Added Access configuration to export
+[1;31m|[m * [33mf9217b8[m Added refresh session service implementation CommonRefreshSessionService
+[1;31m|[m * [33mb94e19d[m Added refresh session repository and service contract
+[1;31m|[m * [33mceb311f[m Added refresh session entity
+[1;31m|[m * [33m5131f99[m Added access tokens filter to authenticate
+[1;31m|[m * [33m3bc140d[m Added JwtBasedSecurityConfigurer implementation of SecurityConfigurer
+[1;31m|[m * [33me6619db[m Added common customizer to authorize http requests
+[1;31m|[m * [33m1f17a57[m Added Security configuring contracts
+[1;31m|[m * [33m4e36f21[m Added JwtAuthenticationProvider, that can authenticate OpenJwtToken
+[1;31m|[m * [33m9ccea65[m Added UsernamePasswordAuthentication contract to get user id
+[1;31m|[m * [33m750ee39[m Added request resolve metadata
+[1;31m|[m * [33macd2f95[m Added refresh token resolver
+[1;31m|[m * [33m554ba80[m Added access token resolver
+[1;31m|[m * [33m8d8fa88[m Added token resolver contract
+[1;31m|[m * [33m014804d[m Added token pair
+[1;31m|[m * [33ma823266[m Added refresh open jwt token
+[1;31m|[m * [33m39e72f4[m Added access open jwt token
+[1;31m|[m * [33m37491ac[m Added base open jwt token
+[1;31m|[m * [33m620d025[m Added access and refresh token metadata
+[1;31m|[m * [33m2913e09[m Added validity intervals
+[1;31m|[m * [33mbe01603[m Added default jwt secrets
+[1;31m|[m * [33mf3e91c4[m Added JWT library module
+[1;31m|[m[1;31m/[m  
+*   [33mbfd734f[m Merge pull request #14 from ProkopovVsevolod/5-implement-user-domain
+[1;33m|[m[1;34m\[m  
+[1;33m|[m * [33m5b6b885[m Added repository test
+[1;33m|[m * [33mbbc877e[m Added application.yaml to config datasource, enable logging
+[1;33m|[m * [33m3154074[m Added user repository
+[1;33m|[m * [33m419aa85[m Added domain classes
+[1;33m|[m * [33m0fec3f6[m Added Spring Data
+[1;33m|[m * [33ma817f75[m Moved Application class
+[1;33m|[m[1;33m/[m  
+*   [33mae7e6e1[m Merge pull request #13 from ProkopovVsevolod/4-enable-logging
+[1;35m|[m[1;36m\[m  
+[1;35m|[m * [33maa9933f[m Added logging aspect
+[1;35m|[m * [33mbad00f9[m Build pom tree
+[1;35m|[m * [33mcf89f83[m Removed from .gitignore lib dir
+[1;35m|[m[1;35m/[m  
+*   [33m8d79c5a[m Merge pull request #12 from ProkopovVsevolod/11-init-structure
+[31m|[m[32m\[m  
+[31m|[m * [33mba0dbd1[m Init backend and frontend
+[31m|[m[31m/[m  
+* [33m2652e61[m[33m ([m[1;31morigin/main[m[33m)[m Initialize project
