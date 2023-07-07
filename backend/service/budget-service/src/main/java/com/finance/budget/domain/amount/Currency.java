@@ -1,19 +1,27 @@
 package com.finance.budget.domain.amount;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-@Entity
-public class Currency {
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String code;
+@Getter
+public enum Currency {
+  RUB(643, "rub",'₽'), USD(840, "usd",'$');
 
-  private String name;
+  private final Integer code;
+  private final String name;
+  private final Character symbol;
 
-  private Character symbol;
+  Currency(Integer code, String name, Character symbol) {
+    this.code = code;
+    this.name = name;
+    this.symbol = symbol;
+  }
+
+  public static Currency byName(String name) {
+    for (Currency currency : Currency.values()) {
+      if (currency.name.equals(name)) {
+        return currency;
+      }
+    }
+    throw new IllegalArgumentException("Currency with name: " + name + " not found");
+  }
 }
