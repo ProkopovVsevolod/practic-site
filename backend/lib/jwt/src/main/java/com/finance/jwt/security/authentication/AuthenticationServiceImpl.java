@@ -36,7 +36,8 @@ public class AuthenticationServiceImpl implements AuthenticateService {
     UserDetailsExtend principal = (UserDetailsExtend) authentication.getPrincipal();
 
     Claims claims = new DefaultClaims(Map.of(
-      "authorities", authentication.getAuthorities()
+      "authorities", authentication.getAuthorities(),
+      "userId", principal.getId()
     ));
     claims.setSubject(principal.getUsername());
 
