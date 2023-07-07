@@ -1,4 +1,4 @@
-package com.finance.exception.config;
+package com.finance.exception;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

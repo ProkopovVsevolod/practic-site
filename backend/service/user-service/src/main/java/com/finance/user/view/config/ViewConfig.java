@@ -1,6 +1,6 @@
 package com.finance.user.view.config;
 
-import com.finance.exception.config.ExceptionHandlerConfig;
+import com.finance.exception.ExceptionHandlerConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
