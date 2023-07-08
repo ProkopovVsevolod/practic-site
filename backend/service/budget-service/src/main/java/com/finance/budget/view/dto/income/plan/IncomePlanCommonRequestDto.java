@@ -1,7 +1,8 @@
-package com.finance.budget.view.dto.income;
+package com.finance.budget.view.dto.income.plan;
 
 import com.finance.budget.view.dto.PeriodDto;
 import com.finance.budget.view.dto.amount.AmountDto;
+import com.finance.budget.view.dto.income.IncomeCategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

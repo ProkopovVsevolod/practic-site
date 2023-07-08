@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IncomeUpdateRequestDto {
+public class IncomeCommonRequestDto {
   private String name;
   private String description;
   private String source;
