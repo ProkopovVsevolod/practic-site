@@ -1,12 +1,13 @@
 package com.finance.budget.view.controller;
 
+import com.finance.budget.domain.CompositeId;
 import com.finance.budget.domain.operation.expense.Expense;
 import com.finance.budget.service.contract.ExpenseService;
 import com.finance.budget.view.dto.ListDto;
-import com.finance.budget.view.dto.expense.ExpenseCommonResponseDto;
 import com.finance.budget.view.dto.expense.ExpenseCommonRequestDto;
+import com.finance.budget.view.dto.expense.ExpenseCommonResponseDto;
 import com.finance.budget.view.mapper.ExpenseMapper;
-import com.finance.jwt.domain.OpenJwtToken;
+import com.finance.jwt.domain.OpenAccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,39 +27,41 @@ public class ExpenseController {
     this.expenseService = expenseService;
   }
 
-  @PostMapping("/api/v1/users/expenses")
+  @PostMapping("/api/v1/expenses")
   @ResponseStatus(HttpStatus.CREATED)
   public ExpenseCommonResponseDto create(@RequestBody ExpenseCommonRequestDto expenseCommonRequestDto,
-                                         OpenJwtToken openJwtToken) {
-    Long userId = openJwtToken.getUserId();
+                                         OpenAccessToken openAccessToken) {
+    Long userId = openAccessToken.getUserId();
     Expense expense = expenseMapper.convertExpenseCommonRequestDtoToExpense(userId, expenseCommonRequestDto);
     Expense created = expenseService.save(expense);
     return expenseMapper.convertExpenseToExpenseCommonResponseDto(created);
   }
 
-  @GetMapping("/api/v1/users/expenses")
+  @GetMapping("/api/v1/expenses")
   public ListDto<ExpenseCommonResponseDto> getSample(@RequestParam(name = "offset", required = false) Integer offset,
                                                      @RequestParam(name = "diapason", required = false) Integer diapason,
-                                                     OpenJwtToken openJwtToken) {
-    Long userId = openJwtToken.getUserId();
+                                                     OpenAccessToken openAccessToken) {
+    Long userId = openAccessToken.getUserId();
     List<Expense> expenseList = expenseService.getSample(userId, offset, diapason);
     return expenseMapper.convertExpenseListToExpenseCommonResponseDtoList(expenseList, offset, diapason);
   }
 
-  @PutMapping("/api/v1/users/expenses/{expense-id}")
+  @PutMapping("/api/v1/expenses/{expense-id}")
   public ExpenseCommonResponseDto update(@PathVariable("expense-id") Long expenseId,
                                          @RequestBody ExpenseCommonRequestDto expenseCommonRequestDto,
-                                         OpenJwtToken openJwtToken) {
-    Long userId = openJwtToken.getUserId();
+                                         OpenAccessToken openAccessToken) {
+    Long userId = openAccessToken.getUserId();
+    CompositeId compositeId = new CompositeId(expenseId, userId);
     Expense newExpense = expenseMapper.convertExpenseCommonRequestDtoToExpense(userId, expenseCommonRequestDto);
-    Expense updatedExpense = expenseService.update(expenseId, newExpense);
+    Expense updatedExpense = expenseService.update(compositeId, newExpense);
     return expenseMapper.convertExpenseToExpenseCommonResponseDto(updatedExpense);
   }
 
-  @DeleteMapping("/api/v1/users/expenses/{expense-id}")
+  @DeleteMapping("/api/v1/expenses/{expense-id}")
   public void delete(@PathVariable("expense-id") Long expenseId,
-                     OpenJwtToken openJwtToken) {
-    Long userId = openJwtToken.getUserId();
-    expenseService.delete(userId, expenseId);
+                     OpenAccessToken openAccessToken) {
+    Long userId = openAccessToken.getUserId();
+    CompositeId compositeId = new CompositeId(expenseId, userId);
+    expenseService.delete(compositeId);
   }
 }
