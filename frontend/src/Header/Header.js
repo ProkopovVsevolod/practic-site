@@ -1,3 +1,5 @@
+
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
 function Header() {
@@ -8,8 +10,8 @@ function Header() {
             <span>1 October  2022 | 11:59 AM GMT</span>
         </div>
         <div className="header__user">
-            <a href="./log-in.html" className="button">Log In</a>
-            <a href="./sign-in.html" className="button button__red">Sign In</a>
+            <div className="button"><NavLink to="./Login">Log In</NavLink></div>
+            <div className="button button__red"><NavLink to="./registration/Registration">Sign In</NavLink></div>
         </div>
     </header>
   );

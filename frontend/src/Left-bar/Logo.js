@@ -3,7 +3,7 @@ import './Navigate.css';
 function Logo () {
     return (
         <div className="logo">
-            <img src="../../img/left-bar/logo.svg" alt="Логотип"/>
+            {/* <img src="../../img/left-bar/logo.svg" alt="Логотип"/> */}
             <p>Groth</p>
         </div>
     )

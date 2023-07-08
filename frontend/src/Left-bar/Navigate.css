@@ -41,15 +41,3 @@
     color: #FFFFFF;
     font-size: 28px;
 }
-.button {
-    color: #FFF;
-    font-size: 16px;
-    border-radius: 12px;
-    display: block;
-    padding: 10px 25px;
-    background-color: #1900D5;
-}
-
-.button__red {
-    background-color: #FD2927;
-}

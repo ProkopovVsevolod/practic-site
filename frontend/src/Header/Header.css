@@ -1,4 +1,5 @@
 .header {
+    
     padding: 23px 48px 23px 32px;
     display: flex;
     justify-content: space-between;
@@ -16,6 +17,7 @@
 .header__user {
     display: flex;
 }
-.header__user a:first-child {
+.header__user div:first-child {
     margin-right: 30px;
 }
+

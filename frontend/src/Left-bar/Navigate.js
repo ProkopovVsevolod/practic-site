@@ -5,7 +5,7 @@ function Navigate () {
         <nav className="left-bar__navigation">
             <ul className="left-bar__navigation-list">
                 <li className="left-bar__navigation-list-item">
-                    <img src="../../img/left-bar/main.svg" alt="Главная"/>
+                    <img src="../../img/main.svg" alt="Главная"/>
                     <a href="">Dashboard</a>
                 </li>
                 <li className="left-bar__navigation-list-item">
