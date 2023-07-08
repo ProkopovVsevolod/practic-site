@@ -34,6 +34,7 @@ public class LoggingAspect {
       joinPoint.getSignature().getName(),
       e.getMessage() != null ? e.getMessage() : "NULL"
     );
+    e.printStackTrace();
   }
 
   /**
