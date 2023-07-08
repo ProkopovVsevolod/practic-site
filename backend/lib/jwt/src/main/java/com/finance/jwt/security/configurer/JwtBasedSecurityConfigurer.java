@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +32,7 @@ public class JwtBasedSecurityConfigurer implements SecurityConfigurer {
       .authorizeHttpRequests(reg -> {
         commonCustomizers.forEach(c -> c.customize(reg));
         customizer.customize(reg);
-      })
-      .addFilterBefore(accessTokenFilter, AuthorizationFilter.class)
+      }).addFilterAfter(accessTokenFilter, SecurityContextHolderFilter.class)
       .build();
   }
 }

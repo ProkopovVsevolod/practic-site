@@ -34,7 +34,7 @@ public enum TokenMetadata {
     return secretKey;
   }
 
-  public void setSecret(String secret) {
+  public synchronized void setSecret(String secret) {
     secret = Encoders.BASE64.encode(secret.getBytes());
     this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
   }

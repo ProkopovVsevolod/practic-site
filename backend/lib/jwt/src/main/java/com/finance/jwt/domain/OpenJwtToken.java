@@ -17,9 +17,10 @@ import java.util.Map;
 @Getter
 public abstract class OpenJwtToken implements Authentication {
   protected final String body;
-  protected final Claims injectedClaims;
   private final Collection<GrantedAuthority> authorities;
   private boolean authenticated = false;
+  private final Claims injectedClaims;
+  private final Long userId;
 
   public OpenJwtToken(String body, TokenMetadata metadata) {
     this.body = body;
@@ -35,10 +36,12 @@ public abstract class OpenJwtToken implements Authentication {
       for (Object o : collection) {
         Collection<String> authorityNames = ((Map<String, String>) o).values();
         for (String authority : authorityNames) {
-          authorities.add(new SimpleGrantedAuthority("ROLE_" + authority));
+          authorities.add(new SimpleGrantedAuthority(authority));
         }
       }
     }
+
+    this.userId = injectedClaims.get("userId", Long.class);
   }
 
   protected static String generateBody(Claims claims, TokenMetadata metadata) {
