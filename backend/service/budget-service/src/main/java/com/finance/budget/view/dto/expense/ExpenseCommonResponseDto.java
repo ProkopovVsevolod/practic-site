@@ -1,5 +1,6 @@
 package com.finance.budget.view.dto.expense;
 
+import com.finance.budget.view.dto.CompositeIdDto;
 import com.finance.budget.view.dto.amount.AmountDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpenseCommonResponseDto {
-  private Long id;
+  private CompositeIdDto compositeId;
   private String name;
   private String description;
   private PaymentMethodDto paymentMethod;
