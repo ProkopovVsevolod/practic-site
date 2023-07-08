@@ -1,7 +1,6 @@
 package com.finance.budget.infrastructure.repository.impl;
 
 import com.finance.budget.domain.Budget;
-import com.finance.budget.infrastructure.repository.contract.base.SessionCaller;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class BudgetSessionCallerImpl implements SessionCaller<Budget> {
-  private final SessionFactory sessionFactory;
-
+public class BudgetSessionCallerImpl extends AbstractSessionCaller<Budget, Long> {
   @Autowired
   public BudgetSessionCallerImpl(SessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
+    super(sessionFactory);
   }
 
   @Override
