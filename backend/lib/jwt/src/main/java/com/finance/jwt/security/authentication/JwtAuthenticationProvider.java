@@ -1,6 +1,6 @@
 package com.finance.jwt.security.authentication;
 
-import com.finance.jwt.domain.OpenJwtToken;
+import com.finance.jwt.domain.OpenAccessToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -14,7 +14,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
   @Override
   public Authentication authenticate(Authentication authentication) {
-    OpenJwtToken token = (OpenJwtToken) authentication;
+    OpenAccessToken token = (OpenAccessToken) authentication;
     if (!token.isValid()) {
       throw new JwtAuthenticationException("Invalid token:" + token);
     }
@@ -24,6 +24,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
   @Override
   public boolean supports(Class<?> authentication) {
-    return (OpenJwtToken.class.isAssignableFrom(authentication));
+    return (OpenAccessToken.class.isAssignableFrom(authentication));
   }
 }
