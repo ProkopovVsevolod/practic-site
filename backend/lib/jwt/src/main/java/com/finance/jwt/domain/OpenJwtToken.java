@@ -5,22 +5,14 @@ import com.finance.jwt.config.token.time.CommonInterval;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.Getter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
+import java.util.Objects;
 
 @Getter
-public abstract class OpenJwtToken implements Authentication {
+public abstract class OpenJwtToken {
   protected final String body;
-  private final Collection<GrantedAuthority> authorities;
-  private boolean authenticated = false;
-  private final Claims injectedClaims;
-  private final Long userId;
+  protected final Claims injectedClaims;
 
   public OpenJwtToken(String body, TokenMetadata metadata) {
     this.body = body;
@@ -29,19 +21,6 @@ public abstract class OpenJwtToken implements Authentication {
       .build()
       .parseClaimsJws(body)
       .getBody();
-
-    this.authorities = new ArrayList<>();
-    Collection<?> collection = injectedClaims.get("authorities", Collection.class);
-    if (collection != null) {
-      for (Object o : collection) {
-        Collection<String> authorityNames = ((Map<String, String>) o).values();
-        for (String authority : authorityNames) {
-          authorities.add(new SimpleGrantedAuthority(authority));
-        }
-      }
-    }
-
-    this.userId = injectedClaims.get("userId", Long.class);
   }
 
   protected static String generateBody(Claims claims, TokenMetadata metadata) {
@@ -68,46 +47,17 @@ public abstract class OpenJwtToken implements Authentication {
     return !injectedClaims.getExpiration().before(new Date());
   }
 
+
   @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return authorities;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    OpenJwtToken that = (OpenJwtToken) o;
+    return Objects.equals(body, that.body) && Objects.equals(injectedClaims, that.injectedClaims);
   }
 
   @Override
-  public Object getCredentials() {
-    return null;
-  }
-
-  @Override
-  public Object getDetails() {
-    return null;
-  }
-
-  @Override
-  public Object getPrincipal() {
-    return body;
-  }
-
-  @Override
-  public boolean isAuthenticated() {
-    return authenticated;
-  }
-
-  @Override
-  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-    this.authenticated = isAuthenticated;
-  }
-
-  @Override
-  public String getName() {
-    return "OpenJwtToken";
-  }
-
-  @Override
-  public String toString() {
-    return "OpenJwtToken{" +
-      "body='" + body + '\'' +
-      ", authenticated=" + authenticated +
-      '}';
+  public int hashCode() {
+    return Objects.hash(body, injectedClaims);
   }
 }

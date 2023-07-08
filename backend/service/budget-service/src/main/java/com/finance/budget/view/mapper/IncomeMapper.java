@@ -2,67 +2,46 @@ package com.finance.budget.view.mapper;
 
 import com.finance.budget.domain.operation.income.Income;
 import com.finance.budget.domain.operation.income.IncomeCategory;
-import com.finance.budget.domain.operation.income.IncomePlan;
 import com.finance.budget.view.dto.ListDto;
-import com.finance.budget.view.dto.income.*;
+import com.finance.budget.view.dto.income.IncomeCategoryDto;
+import com.finance.budget.view.dto.income.IncomeCommonRequestDto;
+import com.finance.budget.view.dto.income.IncomeCommonResponseDto;
 import com.finance.budget.view.mapper.enums.AmountEnumMapper;
 import com.finance.budget.view.mapper.enums.IncomeEnumMapper;
-import com.finance.budget.view.mapper.enums.PeriodEnumMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
+import java.util.Collection;
 import java.util.List;
 
-@Component
+@RequiredArgsConstructor
 public class IncomeMapper {
+  private final IdMapper idMapper;
   private final IncomeEnumMapper incomeEnumMapper;
   private final AmountEnumMapper amountEnumMapper;
-  private final PeriodEnumMapper periodEnumMapper;
 
-  @Autowired
-  public IncomeMapper(IncomeEnumMapper incomeEnumMapper,
-                      AmountEnumMapper amountEnumMapper,
-                      PeriodEnumMapper periodEnumMapper) {
-    this.incomeEnumMapper = incomeEnumMapper;
-    this.amountEnumMapper = amountEnumMapper;
-    this.periodEnumMapper = periodEnumMapper;
-  }
-
-  public ListDto<IncomeCommonResponseDto> convertIncomeListToIncomeCommonResponseDtoList(List<Income> incomeList, Integer offset, Integer diapason) {
+  public ListDto<IncomeCommonResponseDto> convertIncomeListToIncomeCommonResponseDtoList(Collection<Income> incomeList, Integer offset, Integer diapason) {
     List<IncomeCommonResponseDto> incomeCommonResponseDtos = incomeList.stream()
       .map(this::convertIncomeToIncomeCommonResponseDto)
       .toList();
     return new ListDto<>(incomeCommonResponseDtos, offset, diapason);
   }
 
+  public ListDto<IncomeCommonResponseDto> convertIncomeListToIncomeCommonResponseDtoList(Collection<Income> incomeList) {
+    List<IncomeCommonResponseDto> incomeCommonResponseDtos = incomeList.stream()
+      .map(this::convertIncomeToIncomeCommonResponseDto)
+      .toList();
+    return new ListDto<>(incomeCommonResponseDtos);
+  }
+
   public IncomeCommonResponseDto convertIncomeToIncomeCommonResponseDto(Income income) {
     return new IncomeCommonResponseDto(
-      income.getId(),
+      idMapper.convert(income.getCompositeId()),
       income.getName(),
       income.getDescription(),
       income.getSource(),
       income.getDateTime(),
       incomeEnumMapper.convert(income.getIncomeCategory()),
-      amountEnumMapper.convert(income.getAmount()),
-      income.getUserId()
-    );
-  }
-
-  public ListDto<IncomePlanCommonResponseDto> convertIncomePlanListToIncomePlanCommonResponseDtoList(List<IncomePlan> incomePlanList,
-                                                                                                     Integer offset,
-                                                                                                     Integer diapason) {
-    List<IncomePlanCommonResponseDto> incomePlanCommonResponseDtos = incomePlanList.stream()
-      .map(this::convertIncomePlanToIncomePlanCommonResponseDto)
-      .toList();
-    return new ListDto<>(incomePlanCommonResponseDtos, offset, diapason);
-  }
-
-  public IncomePlanCommonResponseDto convertIncomePlanToIncomePlanCommonResponseDto(IncomePlan incomePlan) {
-    return new IncomePlanCommonResponseDto(
-      incomePlan.getId(),
-      amountEnumMapper.convert(incomePlan.getLimit()),
-      periodEnumMapper.convert(incomePlan.getPeriod()),
-      convertIncomeCategoryListToIncomeCategoryDtoList(incomePlan.getCategories(), 0, incomePlan.getCategories().size())
+      amountEnumMapper.convert(income.getAmount())
     );
   }
 
@@ -74,19 +53,20 @@ public class IncomeMapper {
   }
 
   public Income convertIncomeCreateRequestDtoToIncome(Long userId,
-                                                      IncomeCreateRequestDto incomeCreateRequestDto) {
+                                                      IncomeCommonRequestDto incomeCommonRequestDto) {
     return new Income(
       userId,
-      incomeCreateRequestDto.getName(),
-      incomeCreateRequestDto.getDescription(),
-      amountEnumMapper.convert(incomeCreateRequestDto.getAmount()),
-      incomeCreateRequestDto.getSource(),
-      incomeEnumMapper.convert(incomeCreateRequestDto.getIncomeCategory())
+      incomeCommonRequestDto.getName(),
+      incomeCommonRequestDto.getDescription(),
+      amountEnumMapper.convert(incomeCommonRequestDto.getAmount()),
+      incomeCommonRequestDto.getSource(),
+      incomeEnumMapper.convert(incomeCommonRequestDto.getIncomeCategory())
     );
   }
 
+
   public Income convertIncomeUpdateRequestDtoToIncome(Long userid,
-                                                      IncomeUpdateRequestDto incomeUpdateRequestDto) {
+                                                      IncomeCommonRequestDto incomeUpdateRequestDto) {
     return new Income(
       userid,
       incomeUpdateRequestDto.getName(),
@@ -94,20 +74,6 @@ public class IncomeMapper {
       amountEnumMapper.convert(incomeUpdateRequestDto.getAmount()),
       incomeUpdateRequestDto.getSource(),
       incomeEnumMapper.convert(incomeUpdateRequestDto.getIncomeCategory())
-    );
-  }
-
-  public List<IncomePlan> convertIncomePlanCommonRequestDtoListToIncomePlanList(List<IncomePlanCommonRequestDto> incomePlanCommonRequestDtos) {
-    return incomePlanCommonRequestDtos.stream()
-      .map(this::convertIncomePlanCommonRequestDtoToIncomePlan)
-      .toList();
-  }
-
-  public IncomePlan convertIncomePlanCommonRequestDtoToIncomePlan(IncomePlanCommonRequestDto incomePlanCommonRequestDto) {
-    return new IncomePlan(
-      amountEnumMapper.convert(incomePlanCommonRequestDto.getLimit()),
-      periodEnumMapper.convert(incomePlanCommonRequestDto.getPeriod()),
-      incomePlanCommonRequestDto.getCategories().stream().map(incomeEnumMapper::convert).toList()
     );
   }
 }

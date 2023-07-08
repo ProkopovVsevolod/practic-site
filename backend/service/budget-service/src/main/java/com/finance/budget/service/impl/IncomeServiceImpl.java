@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class IncomeServiceImpl extends DependentByUserCrudService<Income, Long> implements IncomeService {
-  public IncomeServiceImpl(DependentByUserRepository<Income, Long> dependentByUserRepository,
+public class IncomeServiceImpl extends DependentByUserCrudService<Income> implements IncomeService {
+  public IncomeServiceImpl(DependentByUserRepository<Income> dependentByUserRepository,
                            SessionCaller<Income> sessionCaller) {
     super(dependentByUserRepository, sessionCaller);
   }
