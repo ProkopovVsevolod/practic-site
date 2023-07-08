@@ -42,7 +42,9 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  protected ResponseEntity<?> handleAllExceptions(Exception ex, WebRequest request) {
-    return handleExceptionInternal(ex, ex.getClass() + ": " + ex.getMessage(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+  protected ResponseEntity<?> handleNotSupportedExceptions(Exception ex, WebRequest request) {
+    ResponseEntity<Object> objectResponseEntity = handleExceptionInternal(ex, ex.getClass() + ": " + ex.getMessage(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    ex.printStackTrace();
+    return objectResponseEntity;
   }
 }
