@@ -16,12 +16,26 @@ public class ListDto<E> {
   private Collection<E> elements;
 
   public ListDto(Collection<E> elements, Integer offset, Integer diapason) {
-    if (offset == null) offset = 0;
-    if (diapason == null) diapason = Integer.MAX_VALUE;
-
     this.elements = elements;
     this.elementsCount = elements.size();
-    this.offset = offset;
-    this.diapason = diapason;
+    this.offset = nonNullOffset(offset);
+    this.diapason = nonNullDiapason(diapason);
+  }
+
+  public ListDto(Collection<E> elements) {
+    this.elements = elements;
+    this.elementsCount = elements.size();
+    this.offset = 0;
+    this.diapason = Integer.MAX_VALUE;
+  }
+
+  private Integer nonNullOffset(Integer offset) {
+    if (offset == null) offset = 0;
+    return offset;
+  }
+
+  private Integer nonNullDiapason(Integer diapason) {
+    if (diapason == null) diapason = Integer.MAX_VALUE;
+    return diapason;
   }
 }
