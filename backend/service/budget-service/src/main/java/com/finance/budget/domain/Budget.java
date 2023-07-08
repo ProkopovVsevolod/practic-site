@@ -31,7 +31,10 @@ public class Budget extends DependentByUserEntity {
     CascadeType.PERSIST,
     CascadeType.REFRESH
   })
-  @JoinColumn(name = "budget_id")
+  @JoinColumns({
+    @JoinColumn(name = "budget_id", referencedColumnName = "id"),
+    @JoinColumn(name = "budget_user_id", referencedColumnName = "user_Id")
+  })
   private Set<Income> incomes;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = {
@@ -40,7 +43,10 @@ public class Budget extends DependentByUserEntity {
     CascadeType.PERSIST,
     CascadeType.REFRESH
   })
-  @JoinColumn(name = "budget_id")
+  @JoinColumns({
+    @JoinColumn(name = "budget_id", referencedColumnName = "id"),
+    @JoinColumn(name = "budget_user_id", referencedColumnName = "user_id")
+  })
   private Set<Expense> expenses;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = {
@@ -49,7 +55,10 @@ public class Budget extends DependentByUserEntity {
     CascadeType.PERSIST,
     CascadeType.REFRESH
   })
-  @JoinColumn(name = "budget_id")
+  @JoinColumns({
+    @JoinColumn(name = "budget_id", referencedColumnName = "id"),
+    @JoinColumn(name = "budget_user_id", referencedColumnName = "user_id")
+  })
   private Set<IncomePlan> incomePlans;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = {
@@ -58,7 +67,10 @@ public class Budget extends DependentByUserEntity {
     CascadeType.PERSIST,
     CascadeType.REFRESH
   })
-  @JoinColumn(name = "budget_id")
+  @JoinColumns({
+    @JoinColumn(name = "budget_id", referencedColumnName = "id"),
+    @JoinColumn(name = "budget_user_id", referencedColumnName = "user_id")
+  })
   private Set<ExpensePlan> expensePlans;
 
   public Budget(Long userId, String financialGoal, Period period, Amount balance) {
@@ -89,7 +101,7 @@ public class Budget extends DependentByUserEntity {
     this.expensePlans = expensePlans;
   }
 
-  public static class Builder extends DependentByUserEntity.Builder<Long> {
+  public static class Builder extends DependentByUserEntity.Builder {
     protected String financialGoal;
     protected Period period;
     protected Amount balance;
