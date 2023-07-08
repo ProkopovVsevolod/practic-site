@@ -6,13 +6,11 @@ import com.finance.jwt.resolver.RequestMetadata;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
 
-@Service
 @Transactional
 public class RefreshSessionServiceImpl implements RefreshSessionService {
   private static final Long MAX_COUNT_OF_SESSIONS_BY_USER = 2L;
