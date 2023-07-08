@@ -6,13 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class Expense extends Operation {
   @Enumerated(EnumType.STRING)
   private PaymentMethod paymentMethod;
@@ -29,6 +27,32 @@ public class Expense extends Operation {
     super(userId, name, description, amount);
     this.paymentMethod = paymentMethod;
     this.expenseCategory = expenseCategory;
+  }
+
+  public Expense() {
+  }
+
+  public static class Builder extends Operation.Builder {
+    private PaymentMethod paymentMethod;
+    private ExpenseCategory expenseCategory;
+
+    public Builder paymentMethod(PaymentMethod paymentMethod) {
+      this.paymentMethod = paymentMethod;
+      return this;
+    }
+
+    public Builder expenseCategory(ExpenseCategory expenseCategory) {
+      this.expenseCategory = expenseCategory;
+      return this;
+    }
+
+    public Expense build() {
+      return new Expense(userId, name, description, amount, paymentMethod, expenseCategory);
+    }
+  }
+
+  public static Builder builder() {
+    return new Builder();
   }
 
   @Override

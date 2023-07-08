@@ -24,6 +24,4 @@ public enum Period {
     }
     throw new IllegalArgumentException("Period with name: " + name + " not found");
   }
-
-
 }

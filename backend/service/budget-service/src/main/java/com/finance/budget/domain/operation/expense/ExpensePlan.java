@@ -3,27 +3,44 @@ package com.finance.budget.domain.operation.expense;
 import com.finance.budget.domain.Period;
 import com.finance.budget.domain.amount.Amount;
 import com.finance.budget.domain.operation.Plan;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class ExpensePlan extends Plan {
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @Enumerated(EnumType.STRING)
   private List<ExpenseCategory> categories;
 
-  public ExpensePlan(Amount limit, Period period, List<ExpenseCategory> categories) {
-    super(limit, period);
+  public ExpensePlan(Long userId,
+                     Amount limit,
+                     Period period,
+                     List<ExpenseCategory> categories) {
+    super(userId, limit, period);
     this.categories = categories;
+  }
+
+  public ExpensePlan() {}
+
+  public static class Builder extends Plan.Builder {
+    protected List<ExpenseCategory> categories;
+
+    public Builder categories(List<ExpenseCategory> categories) {
+      this.categories = categories;
+      return this;
+    }
+
+    public ExpensePlan build() {
+      return new ExpensePlan(userId, limit, period, categories);
+    }
+  }
+
+  public static Builder builder() {
+    return new Builder();
   }
 
   @Override
