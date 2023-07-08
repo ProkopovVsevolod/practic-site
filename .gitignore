@@ -131,3 +131,5 @@ dmypy.json
 /backend/store/services/services.iml
 /backend/store/store.iml
 /backend/store/libs/libs.iml
+
+/frontend/node_modules
