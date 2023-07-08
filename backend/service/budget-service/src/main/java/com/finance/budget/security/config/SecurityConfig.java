@@ -5,11 +5,12 @@ import com.finance.jwt.security.configurer.SecurityConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -22,20 +23,34 @@ public class SecurityConfig {
     return configurer.createChain(http, this::authorizeRequest);
   }
 
-  private void authorizeRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
-    registry.requestMatchers(HttpMethod.POST, "/api/v1/users/budgets").authenticated();
-    registry.requestMatchers(HttpMethod.GET, "/api/v1/users/budgets").authenticated();
-    registry.requestMatchers(HttpMethod.PUT, "/api/v1/users/budgets/{budget-id}").authenticated();
-    registry.requestMatchers(HttpMethod.DELETE, "/api/v1/users/budgets/{budget-id}").authenticated();
+  private void authorizeRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry reg) {
+    reg.requestMatchers(POST, "/api/v1/budgets").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets").authenticated();
+    reg.requestMatchers(PUT, "/api/v1/budgets/{budget-id}").authenticated();
+    reg.requestMatchers(DELETE, "/api/v1/budgets/{budget-id}").authenticated();
+    reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/incomes/{income-id}").authenticated();
+    reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/expenses/{expense-id}").authenticated();
+    reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/income-plans/{income-plan-id}").authenticated();
+    reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/expense-plans/{expense-plan-id}").authenticated();
 
-    registry.requestMatchers(HttpMethod.POST, "/api/v1/users/incomes").authenticated();
-    registry.requestMatchers(HttpMethod.GET, "/api/v1/users/incomes").authenticated();
-    registry.requestMatchers(HttpMethod.PUT, "/api/v1/users/incomes/{income-id}").authenticated();
-    registry.requestMatchers(HttpMethod.DELETE, "/api/v1/users/incomes/{income-id}").authenticated();
+    reg.requestMatchers(POST, "/api/v1/expenses").authenticated();
+    reg.requestMatchers(GET, "/api/v1/expenses").authenticated();
+    reg.requestMatchers(PUT, "/api/v1/expenses/{expense-id}").authenticated();
+    reg.requestMatchers(DELETE, "/api/v1/expenses/{expense-id}").authenticated();
 
-    registry.requestMatchers(HttpMethod.POST, "/api/v1/users/expenses").authenticated();
-    registry.requestMatchers(HttpMethod.GET, "/api/v1/users/expenses").authenticated();
-    registry.requestMatchers(HttpMethod.PUT, "/api/v1/users/expenses/{expense-id}").authenticated();
-    registry.requestMatchers(HttpMethod.DELETE, "/api/v1/users/expenses/{expense-id}").authenticated();
+    reg.requestMatchers(POST, "/api/v1/expense-plans").authenticated();
+    reg.requestMatchers(GET, "/api/v1/expense-plans").authenticated();
+    reg.requestMatchers(PUT, "/api/v1/expense-plans/{expense-plan-id}").authenticated();
+    reg.requestMatchers(DELETE, "/api/v1/expense-plans/{expense-plan-id}").authenticated();
+
+    reg.requestMatchers(POST, "/api/v1/incomes").authenticated();
+    reg.requestMatchers(GET, "/api/v1/incomes").authenticated();
+    reg.requestMatchers(PUT, "/api/v1/incomes/{income-id}").authenticated();
+    reg.requestMatchers(DELETE, "/api/v1/incomes/{income-id}").authenticated();
+
+    reg.requestMatchers(POST, "/api/v1/income-plans").authenticated();
+    reg.requestMatchers(GET, "/api/v1/income-plans").authenticated();
+    reg.requestMatchers(PUT, "/api/v1/income-plans/{income-plan-id}").authenticated();
+    reg.requestMatchers(DELETE, "/api/v1/income-plans/{income-plan-id}").authenticated();
   }
 }
