@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ExpenseServiceImpl extends DependentByUserCrudService<Expense, Long> implements ExpenseService {
-  public ExpenseServiceImpl(DependentByUserRepository<Expense, Long> dependentByUserRepository,
+public class ExpenseServiceImpl extends DependentByUserCrudService<Expense> implements ExpenseService {
+  public ExpenseServiceImpl(DependentByUserRepository<Expense> dependentByUserRepository,
                             SessionCaller<Expense> sessionCaller) {
     super(dependentByUserRepository, sessionCaller);
   }
