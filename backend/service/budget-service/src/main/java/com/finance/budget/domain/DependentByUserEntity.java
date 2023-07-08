@@ -1,11 +1,13 @@
 package com.finance.budget.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,32 +17,31 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DependentByUserEntity<ID extends Serializable> {
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private ID id;
+public abstract class DependentByUserEntity {
 
-  @Column(nullable = false)
-  private Long userId;
+  @EmbeddedId
+  @GeneratedValue(generator = "composite-sequence-generator")
+  @GenericGenerator(
+    name = "composite-sequence-generator",
+    strategy = "com.finance.budget.domain.CompositeSequenceGeneratorPostgres"
+  )
+  private CompositeId compositeId = new CompositeId();
 
   public DependentByUserEntity(Long userId) {
-    this.userId = userId;
+    this.compositeId.setUserId(userId);
   }
 
-  public static class Builder<ID extends Serializable>  {
+  public static class Builder  {
     protected Long userId;
 
-    public Builder<ID> userId(Long userId) {
+    public Builder userId(Long userId) {
       this.userId = userId;
       return this;
     }
-
-    public DependentByUserEntity<ID> build() {
-      return new DependentByUserEntity<ID>(userId);
-    }
   }
-  public static <ID extends Serializable> Builder<ID> builder() {
-    return new Builder<>();
+
+  public static Builder builder() {
+    return new Builder();
   }
 
   public List<Field> getIncludeSuperclassDeclaredFields() {
