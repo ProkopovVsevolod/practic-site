@@ -1,7 +1,8 @@
 package com.finance.budget.domain.operation.expense;
 
 import com.finance.budget.domain.amount.Amount;
-import com.finance.budget.domain.operation.Operation;
+import com.finance.budget.domain.Operation;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,9 +14,11 @@ import java.util.Objects;
 @Entity
 public class Expense extends Operation {
   @Enumerated(EnumType.STRING)
+  @Column(name = "payment_method")
   private PaymentMethod paymentMethod;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "expense_category")
   private ExpenseCategory expenseCategory;
 
   public Expense(Long userId,

@@ -12,17 +12,18 @@ import java.util.Objects;
 
 @Data
 @MappedSuperclass
-public class Operation extends DependentByUserEntity<Long> {
-  @Column(nullable = false)
+public abstract class Operation extends DependentByUserEntity {
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(columnDefinition = "text")
+  @Column(name = "description", columnDefinition = "text")
   private String description;
 
-  @Column(columnDefinition = "timestamp with time zone")
+  @Column(name = "date_time", columnDefinition = "timestamp with time zone")
   private OffsetDateTime dateTime;
 
   @Embedded
+  @Column(name = "amount")
   private Amount amount;
 
   public Operation(Long userId, String name, String description, Amount amount) {

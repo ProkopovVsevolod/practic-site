@@ -1,7 +1,7 @@
 package com.finance.budget.domain.operation.income;
 
 import com.finance.budget.domain.amount.Amount;
-import com.finance.budget.domain.operation.Operation;
+import com.finance.budget.domain.Operation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,10 +14,11 @@ import java.util.Objects;
 @Data
 @Entity
 public class Income extends Operation {
-  @Column(nullable = false)
+  @Column(name = "source", nullable = false)
   private String source;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "income_category")
   private IncomeCategory incomeCategory;
 
   public Income(Long userId,

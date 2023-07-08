@@ -13,13 +13,16 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Budget extends DependentByUserEntity<Long> {
+public class Budget extends DependentByUserEntity {
+  @Column(name = "financial_goal")
   private String financialGoal;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "period")
   private Period period;
 
   @Embedded
+  @Column(name = "balance")
   private Amount balance;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = {

@@ -16,9 +16,11 @@ import java.util.Objects;
 public class Plan extends DependentByUserEntity<Long> {
 
   @Embedded
+  @Column(name = "limit")
   private Amount limit;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "period")
   private Period period;
 
   public Plan(Long userId,

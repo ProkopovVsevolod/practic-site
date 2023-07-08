@@ -2,7 +2,7 @@ package com.finance.budget.domain.operation.expense;
 
 import com.finance.budget.domain.Period;
 import com.finance.budget.domain.amount.Amount;
-import com.finance.budget.domain.operation.Plan;
+import com.finance.budget.domain.Plan;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +14,7 @@ import java.util.Objects;
 public class ExpensePlan extends Plan {
   @ElementCollection(fetch = FetchType.EAGER)
   @Enumerated(EnumType.STRING)
+  @Column(name = "categories")
   private List<ExpenseCategory> categories;
 
   public ExpensePlan(Long userId,
