@@ -4,9 +4,7 @@ import com.finance.budget.domain.amount.Amount;
 import com.finance.budget.domain.amount.Currency;
 import com.finance.budget.view.dto.amount.AmountDto;
 import com.finance.budget.view.dto.amount.CurrencyDto;
-import org.springframework.stereotype.Component;
 
-@Component
 public class AmountEnumMapper {
   public Currency convert(CurrencyDto currencyDto) {
     return Currency.byName(currencyDto.toName());
