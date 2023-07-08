@@ -1,19 +1,14 @@
-package com.finance.budget.domain.operation;
+package com.finance.budget.domain;
 
-import com.finance.budget.domain.DependentByUserEntity;
-import com.finance.budget.domain.Period;
 import com.finance.budget.domain.amount.Amount;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Objects;
 
 @Data
 @MappedSuperclass
-public class Plan extends DependentByUserEntity<Long> {
+public class Plan extends DependentByUserEntity {
 
   @Embedded
   @Column(name = "limit")
@@ -33,7 +28,7 @@ public class Plan extends DependentByUserEntity<Long> {
 
   public Plan() {}
 
-  public static class Builder extends DependentByUserEntity.Builder<Long> {
+  public static class Builder extends DependentByUserEntity.Builder {
     protected Amount limit;
     protected Period period;
 

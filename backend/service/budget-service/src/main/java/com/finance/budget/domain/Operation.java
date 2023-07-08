@@ -1,6 +1,5 @@
-package com.finance.budget.domain.operation;
+package com.finance.budget.domain;
 
-import com.finance.budget.domain.DependentByUserEntity;
 import com.finance.budget.domain.amount.Amount;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -44,7 +43,7 @@ public abstract class Operation extends DependentByUserEntity {
 
   public Operation() {}
 
-  public static class Builder extends DependentByUserEntity.Builder<Long>{
+  public static class Builder extends DependentByUserEntity.Builder{
     protected String name;
     protected String description;
     protected OffsetDateTime dateTime;
@@ -68,10 +67,6 @@ public abstract class Operation extends DependentByUserEntity {
     public Builder amount(Amount amount) {
       this.amount = amount;
       return this;
-    }
-
-    public Operation build() {
-      return new Operation(userId, name, description, dateTime, amount);
     }
   }
 

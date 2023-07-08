@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class BudgetSessionCallerImpl extends AbstractSessionCaller<Budget, Long> {
+public class BudgetSessionCallerImpl extends AbstractSessionCaller<Budget> {
   @Autowired
   public BudgetSessionCallerImpl(SessionFactory sessionFactory) {
     super(sessionFactory);
@@ -17,7 +17,7 @@ public class BudgetSessionCallerImpl extends AbstractSessionCaller<Budget, Long>
 
   @Override
   public List<Budget> findSample(Long userId, Integer offset, Integer count) {
-    String hql = "from Budget where userId = :userId";
+    String hql = "from Budget where compositeId.userId = :userId";
     try (Session session = sessionFactory.openSession()) {
       return session.createQuery(hql, Budget.class)
         .setParameter("userId", userId)

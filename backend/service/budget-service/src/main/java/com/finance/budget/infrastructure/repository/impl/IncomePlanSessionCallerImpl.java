@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class IncomePlanSessionCallerImpl extends AbstractSessionCaller<IncomePlan, Long> {
+public class IncomePlanSessionCallerImpl extends AbstractSessionCaller<IncomePlan> {
   public IncomePlanSessionCallerImpl(SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 
   @Override
   public List<IncomePlan> findSample(Long userId, Integer offset, Integer count) {
-    String hql = "from IncomePlan where userId = :userId";
+    String hql = "from IncomePlan where compositeId.userId = :userId";
     try (Session session = sessionFactory.openSession()) {
       return session.createQuery(hql, IncomePlan.class)
         .setParameter("userId", userId)
