@@ -1,20 +1,24 @@
 package com.finance.budget.service.impl;
 
+import com.finance.budget.domain.CompositeId;
 import com.finance.budget.domain.DependentByUserEntity;
 import com.finance.budget.infrastructure.repository.contract.base.DependentByUserRepository;
 import com.finance.budget.infrastructure.repository.contract.base.SessionCaller;
 import com.finance.budget.service.contract.CrudService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class DependentByUserCrudService<T extends DependentByUserEntity<ID>, ID extends Serializable> implements CrudService<T, ID> {
-  private final DependentByUserRepository<T, ID> dependentByUserRepository;
+@Service
+@Transactional
+public abstract class DependentByUserCrudService<T extends DependentByUserEntity> implements CrudService<T> {
+  private final DependentByUserRepository<T> dependentByUserRepository;
   private final SessionCaller<T> sessionCaller;
   private final String genericClassName;
 
-  public DependentByUserCrudService(DependentByUserRepository<T, ID> dependentByUserRepository,
+  public DependentByUserCrudService(DependentByUserRepository<T> dependentByUserRepository,
                                     SessionCaller<T> sessionCaller) {
     this.dependentByUserRepository = dependentByUserRepository;
     this.sessionCaller = sessionCaller;
@@ -37,26 +41,36 @@ public abstract class DependentByUserCrudService<T extends DependentByUserEntity
   }
 
   @Override
-  public T update(ID id, T entity) {
-    Long userId = entity.getUserId();
-    dependentByUserRepository.findByIdAndUserId(id, userId)
-      .orElseThrow(() -> {
-        var message = genericClassName + " with [userId:id]: [" + userId + ":" + id + "] not found";
-        return new IllegalArgumentException(message);
-      });
-
-    entity.setId(id);
-    return dependentByUserRepository.save(entity);
+  public T find(CompositeId id) {
+    return dependentByUserRepository.findById(id)
+      .orElseThrow(() -> new IllegalArgumentException(genericClassName + " with id: " + id + " not found"));
   }
 
   @Override
-  public void delete(Long userId, ID id) {
-    dependentByUserRepository.findById(id)
-      .orElseThrow(() -> {
-        var message =  genericClassName + " with [userId:incomeId]: [" + userId + ":" + id + "] not found";
-        return new IllegalArgumentException(message);
+  public T update(CompositeId id, T next) {
+    T present = find(id);
+     next.getIncludeSuperclassDeclaredFields()
+      .forEach(field -> {
+        if (!field.getType().equals(CompositeId.class)) {
+          boolean isAccessible = field.canAccess(next);
+          field.setAccessible(true);
+          try {
+            Object value = field.get(next);
+            if (value != null) {
+              field.set(present, value);
+            }
+          } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+          }
+          field.setAccessible(isAccessible);
+        }
       });
+    return dependentByUserRepository.save(present);
+  }
 
+  @Override
+  public void delete(CompositeId id) {
+    find(id);
     dependentByUserRepository.deleteById(id);
   }
 }
