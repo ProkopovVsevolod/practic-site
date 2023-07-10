@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: discovery-service
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+    peer-node-read-timeout-ms: 100000
+
+server:
+  port: 8761
