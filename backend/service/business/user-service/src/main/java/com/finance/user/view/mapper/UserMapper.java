@@ -5,15 +5,22 @@ import com.finance.user.domain.User;
 import com.finance.user.view.dto.RoleDto;
 import com.finance.user.view.dto.SignupRequestDto;
 import com.finance.user.view.dto.SignupResponseDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
+  private final PasswordEncoder passwordEncoder;
+
+  public UserMapper(PasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
+  }
+
   public User convert(SignupRequestDto signupRequestDto) {
     return User.builder()
       .name(signupRequestDto.getName())
       .email(signupRequestDto.getEmail())
-      .password(signupRequestDto.getPassword())
+      .password(passwordEncoder.encode(signupRequestDto.getPassword()))
       .role(Role.USER)
       .build();
   }
