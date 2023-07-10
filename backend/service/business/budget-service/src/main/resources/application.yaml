@@ -1,39 +1,23 @@
 spring:
+  profiles:
+    default: dev
   application:
     name: budget-service
-
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: update
     database: postgresql
-
   datasource:
-    url: jdbc:postgresql://budget-database:5432/budget_db
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
-
-  test:
-    database:
-      replace: none
-
   sql:
     init:
       platform: postgres
-
-server:
-  port: 8002
-
 logging:
   level:
     root: info
-    org.springframework.security: trace
+    org.springframework.security: debug
     com.finance.logger: debug
-
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka/
+server:
+  port: 8002
