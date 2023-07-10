@@ -11,4 +11,12 @@ public class SignupRequestDto {
   private String name;
   private String email;
   private String password;
+
+  @Override
+  public String toString() {
+    return "SignupRequestDto{" +
+      "name='" + name + '\'' +
+      ", email='" + email + '\'' +
+      '}';
+  }
 }

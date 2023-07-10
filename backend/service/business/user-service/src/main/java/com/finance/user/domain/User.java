@@ -127,7 +127,6 @@ public class User implements UserDetailsExtend {
       "id=" + id +
       ", name='" + name + '\'' +
       ", email='" + email + '\'' +
-      ", password='" + password + '\'' +
       ", role=" + role +
       '}';
   }

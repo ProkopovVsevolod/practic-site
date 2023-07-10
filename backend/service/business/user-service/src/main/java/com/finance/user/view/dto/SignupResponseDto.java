@@ -12,4 +12,6 @@ public class SignupResponseDto {
   private String name;
   private String email;
   private RoleDto role;
+
+
 }
