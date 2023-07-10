@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: user-service
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+
+  datasource:
+    url: jdbc:postgresql://user-database:5432/user_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+
+  test:
+    database:
+      replace: none
+
+  sql:
+    init:
+      platform: postgres
+
+server:
+  port: 8001
+
+logging:
+  level:
+    root: info
+    org.springframework.security: trace
+    com.finance.logger: debug
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
