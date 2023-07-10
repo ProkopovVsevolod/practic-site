@@ -1,0 +1,75 @@
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 8080
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+
+spring:
+  application:
+    name: gateway-service
+
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      httpclient:
+        ssl:
+          use-insecure-trust-manager: true
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+
+      routes:
+        - id: users
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/**
+
+        - id: budgets
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/budgets/**
+
+        - id: incomes
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/incomes/**
+
+        - id: expenses
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/expenses/**
+
+        - id: income-plans
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/income-plans/**
+
+        - id: expense-plans
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/expense-plans/**
