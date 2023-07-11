@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    default: dev
+  application:
+    name: budget-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  sql:
+    init:
+      platform: postgres
+logging:
+  level:
+    root: info
+    org.springframework.security: debug
+    com.finance.logger: debug
+server:
+  port: 8002

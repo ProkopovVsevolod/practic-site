@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    default: dev
+  application:
+    name: gateway-service
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+      routes:
+        - id: users
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/**
+        - id: budgets
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/budgets/**
+        - id: incomes
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/incomes/**
+        - id: expenses
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/expenses/**
+        - id: income-plans
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/income-plans/**
+        - id: expense-plans
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/v1/expense-plans/**
+server:
+  port: 8080
+eureka:
+  instance:
+    prefer-ip-address: true
