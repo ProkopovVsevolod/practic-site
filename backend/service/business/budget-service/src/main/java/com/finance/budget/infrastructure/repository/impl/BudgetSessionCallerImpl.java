@@ -1,6 +1,6 @@
 package com.finance.budget.infrastructure.repository.impl;
 
-import com.finance.budget.domain.Budget;
+import com.finance.lib.budget.domain.entity.Budget;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

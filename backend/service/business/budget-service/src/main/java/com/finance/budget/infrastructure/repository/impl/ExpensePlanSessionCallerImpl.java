@@ -1,6 +1,6 @@
 package com.finance.budget.infrastructure.repository.impl;
 
-import com.finance.budget.domain.operation.expense.ExpensePlan;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;

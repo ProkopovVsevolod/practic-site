@@ -1,6 +1,6 @@
 package com.finance.budget.infrastructure.repository.contract.base;
 
-import com.finance.budget.domain.DependentByUserEntity;
+import com.finance.lib.budget.domain.entity.DependentByUserEntity;
 
 import java.util.List;
 
