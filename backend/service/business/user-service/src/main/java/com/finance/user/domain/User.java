@@ -2,6 +2,10 @@ package com.finance.user.domain;
 
 import com.finance.jwt.security.authentication.UserDetailsExtend;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -24,13 +28,17 @@ public class User implements UserDetailsExtend {
   @SequenceGenerator(name = "users_id_sequence", allocationSize = 10)
   private Long id;
 
+  @NotBlank
   private String name;
 
   @Column(unique = true)
+  @Email
   private String email;
 
+  @Size(min = 6, max = 80)
   private String password;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   private Role role;
 
