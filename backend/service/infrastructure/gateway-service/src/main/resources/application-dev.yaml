@@ -1,0 +1,12 @@
+eureka:
+  client:
+    enabled: false
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      httpclient:
+        ssl:
+          use-insecure-trust-manager: true

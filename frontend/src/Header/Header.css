@@ -1,0 +1,21 @@
+.header {
+    padding: 23px 48px 23px 32px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #000000;
+    color: #FFFFFF;
+    border-bottom: 2px solid#7C7C7C;
+}
+.header p {
+    font-size: 20px;
+}
+.header span {
+    color: #7C7C7C;
+    font-size: 14px;
+}
+.header__user {
+    display: flex;
+}
+.header__user a:first-child {
+    margin-right: 30px;
+}

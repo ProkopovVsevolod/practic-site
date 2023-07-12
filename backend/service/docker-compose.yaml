@@ -1,0 +1,127 @@
+version: "3.9"
+
+services:
+  discovery-service:
+    container_name: discovery-service
+    build: infrastructure/discovery-service/
+    image: discovery-service
+    restart: "on-failure"
+    networks:
+      - service-network
+    volumes:
+      - ../scripts/wait.sh:/wait.sh
+    entrypoint: [ sh, -c,
+                  "java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar discovery-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+
+  gateway-service:
+    container_name: gateway-service
+    build: infrastructure/gateway-service/
+    image: gateway-service
+    depends_on:
+      - discovery-service
+      - user-service
+      - budget-service
+    restart: "on-failure"
+    networks:
+      - service-network
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../scripts/wait.sh:/wait.sh
+    entrypoint: [ sh, -c,
+      "sh ./wait.sh discovery-service 8761 & \
+      sh ./wait.sh user-service 8001 & \
+      sh ./wait.sh budget-service 8002 & \
+      wait $! && \    
+      java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar gateway-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+
+  user-service:
+    container_name: user-service
+    build: business/user-service/
+    image: user-service
+    depends_on:
+      - user-database
+      - discovery-service
+    restart: "on-failure"
+    networks:
+      - service-network
+    volumes:
+      - ../scripts/wait.sh:/wait.sh
+    entrypoint: [ sh, -c,
+      "sh ./wait.sh discovery-service 8761 & \
+      wait $! && \
+      java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar user-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+
+  budget-service:
+    container_name: budget-service
+    build: business/budget-service/
+    image: budget-service
+    depends_on:
+      - user-service
+      - budget-database
+      - discovery-service
+    restart: "on-failure"
+    networks:
+      - service-network
+    volumes:
+      - ../scripts/wait.sh:/wait.sh
+    entrypoint: [ sh, -c,
+      "sh ./wait.sh discovery-service 8761 & \
+      sh ./wait.sh user-service 8001 & \
+      wait $! && \
+      java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar budget-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+
+  analysis-service:
+    container_name: analysis-service
+    build: business/analysis-service/
+    image: analysis-service
+    depends_on:
+      - user-service
+      - discovery-service
+      - budget-database
+    restart: "on-failure"
+    networks:
+      - service-network
+    volumes:
+      - ../scripts/wait.sh:/wait.sh
+    entrypoint: [ sh, -c,
+      "sh ./wait.sh discovery-service 8761 & \
+      sh ./wait.sh user-service 8001 & \
+      wait $! && \
+      java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar analysis-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+
+  user-database:
+    container_name: user-database
+    image: postgres:15.2-alpine
+    environment:
+      PGUSER: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./business/user-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - user-database-volume:/var/lib/postgresql/data
+    restart: "on-failure"
+    networks:
+      - service-network
+
+  budget-database:
+    container_name: budget-database
+    image: postgres:15.2-alpine
+    environment:
+      PGUSER: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./business/budget-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - budget-database-volume:/var/lib/postgresql/data
+    restart: "on-failure"
+    networks:
+      - service-network
+
+volumes:
+  user-database-volume:
+  budget-database-volume:
+
+networks:
+  service-network:
+    driver: bridge
