@@ -5,6 +5,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -18,14 +19,26 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class RestClientsConfig {
   @Bean
+  @Profile("prod")
   public WebClient.Builder budgetServiceWebClientBuilder(HttpClient httpClient) {
+    return generalWebClientBuilder(httpClient)
+      .baseUrl("http://budget-service:8002");
+  }
+
+  @Bean
+  @Profile("dev")
+  public WebClient.Builder budgetServiceWebClientBuilderLocal(HttpClient httpClient){
+    return generalWebClientBuilder(httpClient)
+      .baseUrl("http://localhost:8002");
+  }
+
+  private WebClient.Builder generalWebClientBuilder(HttpClient httpClient) {
     final int size = 16 * 1024 * 1024;
     final ExchangeStrategies strategies = ExchangeStrategies.builder()
       .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(size))
       .build();
     return WebClient.builder()
       .clientConnector(new ReactorClientHttpConnector(httpClient))
-      .baseUrl("http://budget-service:8002")
       .exchangeStrategies(strategies)
       .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
   }

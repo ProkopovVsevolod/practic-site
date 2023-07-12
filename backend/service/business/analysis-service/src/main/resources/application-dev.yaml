@@ -1,9 +1,4 @@
 spring:
-  jpa:
-    show-sql: true
-  datasource:
-#    url: jdbc:postgresql://localhost:5432/analysis_db
-    url: jdbc:postgresql://localhost:5432/budget_db
   test:
     database:
       replace: none
