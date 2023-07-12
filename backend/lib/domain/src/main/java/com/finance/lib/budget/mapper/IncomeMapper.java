@@ -3,9 +3,9 @@ package com.finance.lib.budget.mapper;
 import com.finance.lib.budget.domain.entity.operation.income.Income;
 import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
 import com.finance.lib.budget.dto.ListDto;
-import com.finance.lib.budget.dto.income.IncomeCategoryDto;
-import com.finance.lib.budget.dto.income.IncomeCommonRequestDto;
-import com.finance.lib.budget.dto.income.IncomeCommonResponseDto;
+import com.finance.lib.budget.dto.operation.income.IncomeCategoryDto;
+import com.finance.lib.budget.dto.operation.income.IncomeCommonRequestDto;
+import com.finance.lib.budget.dto.operation.income.IncomeCommonResponseDto;
 import com.finance.lib.budget.mapper.enums.IncomeEnumMapper;
 import lombok.RequiredArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.finance.lib.budget.mapper;
 
-import com.finance.lib.budget.dto.income.plan.IncomePlanCommonRequestDto;
-import com.finance.lib.budget.dto.income.plan.IncomePlanCommonResponseDto;
+import com.finance.lib.budget.dto.operation.income.plan.IncomePlanCommonRequestDto;
+import com.finance.lib.budget.dto.operation.income.plan.IncomePlanCommonResponseDto;
 import com.finance.lib.budget.mapper.enums.IncomeEnumMapper;
 import com.finance.lib.budget.domain.entity.operation.income.IncomePlan;
 import com.finance.lib.budget.dto.ListDto;

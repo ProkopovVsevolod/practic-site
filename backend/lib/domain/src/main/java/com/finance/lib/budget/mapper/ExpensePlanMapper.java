@@ -2,8 +2,8 @@ package com.finance.lib.budget.mapper;
 
 import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
 import com.finance.lib.budget.dto.ListDto;
-import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonRequestDto;
-import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonResponseDto;
+import com.finance.lib.budget.dto.operation.expense.plan.ExpensePlanCommonRequestDto;
+import com.finance.lib.budget.dto.operation.expense.plan.ExpensePlanCommonResponseDto;
 import com.finance.lib.budget.mapper.enums.ExpenseEnumMapper;
 import lombok.RequiredArgsConstructor;
 

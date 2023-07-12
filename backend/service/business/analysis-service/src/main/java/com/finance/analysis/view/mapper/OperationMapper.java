@@ -6,9 +6,8 @@ import com.finance.lib.budget.domain.entity.Operation;
 import com.finance.lib.budget.domain.entity.Plan;
 import com.finance.lib.budget.domain.entity.amount.Amount;
 import com.finance.lib.budget.dto.ListDto;
-import com.finance.lib.budget.dto.OperationCommonResponseDto;
+import com.finance.lib.budget.dto.operation.OperationAnalyseResponseDto;
 import com.finance.lib.budget.mapper.AmountMapper;
-import com.finance.lib.budget.mapper.IdMapper;
 import com.finance.lib.budget.mapper.PeriodMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,14 +17,12 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class OperationMapper {
-  private final IdMapper idMapper;
   private final PeriodMapper periodMapper;
   private final AmountMapper amountMapper;
 
-  public OperationCommonResponseDto convert(Operation operation) {
-    return new OperationCommonResponseDto(
+  public OperationAnalyseResponseDto convert(Operation operation) {
+    return new OperationAnalyseResponseDto(
       operation.getType(),
-      idMapper.convert(operation.getCompositeId()),
       operation.getName(),
       operation.getDescription(),
       operation.getDateTime(),
@@ -33,14 +30,14 @@ public class OperationMapper {
     );
   }
 
-  public ListDto<OperationCommonResponseDto> convertList(List<Operation> operationList) {
-    List<OperationCommonResponseDto> listDto = operationList.stream()
+  public ListDto<OperationAnalyseResponseDto> convertList(List<? extends Operation> operationList) {
+    List<OperationAnalyseResponseDto> listDto = operationList.stream()
       .map(this::convert)
       .toList();
     return new ListDto<>(listDto);
   }
 
-  public PlanActualCompareDto convert(Amount diff, Plan plan, List<Operation> operationList) {
+  public PlanActualCompareDto convert(Amount diff, Plan plan, List<? extends Operation> operationList) {
     return new PlanActualCompareDto(
       amountMapper.convert(diff),
       new PlanDto(amountMapper.convert(plan.getLimit()), periodMapper.convert(plan.getPeriod())),

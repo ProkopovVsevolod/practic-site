@@ -32,13 +32,13 @@ public class SecurityConfig {
     reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/expenses/{expense-id}").authenticated();
     reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/income-plans/{income-plan-id}").authenticated();
     reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/expense-plans/{expense-plan-id}").authenticated();
-
     reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/currency").authenticated();
     reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/incomes/{year}-{month}").authenticated();
     reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/expenses/{year}-{month}").authenticated();
     reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/balance").authenticated();
-    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/income-plans/{year}-{month}").authenticated();
-    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/expense-plans/{year}-{month}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/income-plans/{year}-{month}/{category}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/expense-plans/{year}-{month}/{category}").authenticated();
+
 
     reg.requestMatchers(POST, "/api/v1/expenses").authenticated();
     reg.requestMatchers(GET, "/api/v1/expenses").authenticated();
