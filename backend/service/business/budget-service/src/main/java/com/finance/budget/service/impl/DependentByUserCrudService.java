@@ -1,10 +1,12 @@
 package com.finance.budget.service.impl;
 
-import com.finance.budget.domain.CompositeId;
-import com.finance.budget.domain.DependentByUserEntity;
 import com.finance.budget.infrastructure.repository.contract.base.DependentByUserRepository;
 import com.finance.budget.infrastructure.repository.contract.base.SessionCaller;
 import com.finance.budget.service.contract.CrudService;
+import com.finance.lib.budget.domain.entity.CompositeId;
+import com.finance.lib.budget.domain.entity.DependentByUserEntity;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,25 +31,26 @@ public abstract class DependentByUserCrudService<T extends DependentByUserEntity
   }
 
   @Override
-  public T save(T entity) {
+  public T save(@Valid @NotNull T entity) {
     return dependentByUserRepository.save(entity);
   }
 
   @Override
-  public List<T> getSample(Long userId, Integer offset, Integer diapason) {
+  public List<T> getSample(@NotNull Long userId, Integer offset, Integer diapason) {
     if (offset == null) offset = 0;
     if (diapason == null) diapason = Integer.MAX_VALUE;
     return sessionCaller.findSample(userId, offset, diapason);
   }
 
   @Override
-  public T find(CompositeId id) {
+  public T find(@Valid @NotNull CompositeId id) {
     return dependentByUserRepository.findById(id)
       .orElseThrow(() -> new IllegalArgumentException(genericClassName + " with id: " + id + " not found"));
   }
 
   @Override
-  public T update(CompositeId id, T next) {
+  public T update(@Valid @NotNull CompositeId id,
+                  @Valid @NotNull T next) {
     T present = find(id);
      next.getIncludeSuperclassDeclaredFields()
       .forEach(field -> {
@@ -69,7 +72,7 @@ public abstract class DependentByUserCrudService<T extends DependentByUserEntity
   }
 
   @Override
-  public void delete(CompositeId id) {
+  public void delete(@Valid @NotNull CompositeId id) {
     find(id);
     dependentByUserRepository.deleteById(id);
   }

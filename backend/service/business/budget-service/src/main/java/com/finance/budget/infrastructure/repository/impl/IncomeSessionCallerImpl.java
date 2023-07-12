@@ -1,6 +1,6 @@
 package com.finance.budget.infrastructure.repository.impl;
 
-import com.finance.budget.domain.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.Income;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;

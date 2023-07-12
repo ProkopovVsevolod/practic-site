@@ -1,6 +1,6 @@
 package com.finance.jwt.config;
 
-import com.finance.jwt.config.token.TokenMetadata;
+import com.finance.jwt.domain.token.TokenMetadata;
 import com.finance.jwt.resolver.RefreshTokenResolver;
 import com.finance.jwt.security.refresh.RefreshSessionRepository;
 import com.finance.jwt.security.refresh.RefreshSessionService;

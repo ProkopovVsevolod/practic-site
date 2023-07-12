@@ -35,6 +35,10 @@ spring:
           uri: lb://budget-service
           predicates:
             - Path=/api/v1/expense-plans/**
+        - id: analysis
+          uri: lb://analysis-service
+          predicates:
+            - Path=/api/v1/analysis/**
 server:
   port: 8080
 eureka:

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EntityScan(basePackages = "com.finance.budget.domain")
+@EntityScan(basePackages = "com.finance.lib.budget.domain.entity")
 @EnableJpaRepositories(basePackages = "com.finance.budget.infrastructure.repository.contract")
 public class BudgetServiceApplication {
   public static void main(String[] args) {

@@ -1,12 +1,12 @@
 package com.finance.budget.view.controller;
 
-import com.finance.budget.domain.CompositeId;
-import com.finance.budget.domain.operation.expense.ExpensePlan;
+import com.finance.lib.budget.domain.entity.CompositeId;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
 import com.finance.budget.service.contract.ExpensePlanService;
-import com.finance.budget.view.dto.ListDto;
-import com.finance.budget.view.dto.expense.plan.ExpensePlanCommonRequestDto;
-import com.finance.budget.view.dto.expense.plan.ExpensePlanCommonResponseDto;
-import com.finance.budget.view.mapper.ExpensePlanMapper;
+import com.finance.lib.budget.dto.ListDto;
+import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonRequestDto;
+import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonResponseDto;
+import com.finance.lib.budget.mapper.ExpensePlanMapper;
 import com.finance.jwt.domain.OpenAccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

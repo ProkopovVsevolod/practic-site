@@ -1,6 +1,6 @@
 package com.finance.budget.infrastructure.repository.impl;
 
-import com.finance.budget.domain.DependentByUserEntity;
+import com.finance.lib.budget.domain.entity.DependentByUserEntity;
 import com.finance.budget.infrastructure.repository.contract.base.SessionCaller;
 import org.hibernate.SessionFactory;
 

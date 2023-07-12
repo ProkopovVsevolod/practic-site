@@ -1,6 +1,6 @@
 package com.finance.jwt.domain;
 
-import com.finance.jwt.config.token.TokenMetadata;
+import com.finance.jwt.domain.token.TokenMetadata;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import org.springframework.context.annotation.PropertySource;

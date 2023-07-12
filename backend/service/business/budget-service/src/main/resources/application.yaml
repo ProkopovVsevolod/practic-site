@@ -4,6 +4,7 @@ spring:
   application:
     name: budget-service
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
     database: postgresql
@@ -16,7 +17,7 @@ spring:
       platform: postgres
 logging:
   level:
-    root: info
+    org.springframework.web: trace
     org.springframework.security: debug
     com.finance.logger: debug
 server:

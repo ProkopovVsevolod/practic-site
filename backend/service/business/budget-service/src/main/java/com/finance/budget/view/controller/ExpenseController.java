@@ -1,12 +1,13 @@
 package com.finance.budget.view.controller;
 
-import com.finance.budget.domain.CompositeId;
-import com.finance.budget.domain.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.CompositeId;
+import com.finance.lib.budget.domain.entity.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
 import com.finance.budget.service.contract.ExpenseService;
-import com.finance.budget.view.dto.ListDto;
-import com.finance.budget.view.dto.expense.ExpenseCommonRequestDto;
-import com.finance.budget.view.dto.expense.ExpenseCommonResponseDto;
-import com.finance.budget.view.mapper.ExpenseMapper;
+import com.finance.lib.budget.dto.ListDto;
+import com.finance.lib.budget.dto.expense.ExpenseCommonRequestDto;
+import com.finance.lib.budget.dto.expense.ExpenseCommonResponseDto;
+import com.finance.lib.budget.mapper.ExpenseMapper;
 import com.finance.jwt.domain.OpenAccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,5 +64,10 @@ public class ExpenseController {
     Long userId = openAccessToken.getUserId();
     CompositeId compositeId = new CompositeId(expenseId, userId);
     expenseService.delete(compositeId);
+  }
+
+  @GetMapping("/api/v1/expenses/categories")
+  public ExpenseCategory[] getExpenseCategories() {
+    return ExpenseCategory.values();
   }
 }

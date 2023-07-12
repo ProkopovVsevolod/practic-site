@@ -1,7 +1,7 @@
 package com.finance.budget.service.contract;
 
-import com.finance.budget.domain.CompositeId;
-import com.finance.budget.domain.DependentByUserEntity;
+import com.finance.lib.budget.domain.entity.CompositeId;
+import com.finance.lib.budget.domain.entity.DependentByUserEntity;
 
 import java.util.List;
 

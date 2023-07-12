@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    default: dev
+  application:
+    name: analysis-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  sql:
+    init:
+      platform: postgres
+logging:
+  level:
+    org.springframework.http.converter.json: debug
+    org.springframework.web: debug
+    org.springframework.security: debug
+    com.finance.logger: debug
+server:
+  port: 8003

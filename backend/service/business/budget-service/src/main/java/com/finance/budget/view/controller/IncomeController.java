@@ -1,12 +1,13 @@
 package com.finance.budget.view.controller;
 
-import com.finance.budget.domain.CompositeId;
-import com.finance.budget.domain.operation.income.Income;
+import com.finance.lib.budget.domain.entity.CompositeId;
+import com.finance.lib.budget.domain.entity.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
 import com.finance.budget.service.contract.IncomeService;
-import com.finance.budget.view.dto.ListDto;
-import com.finance.budget.view.dto.income.IncomeCommonResponseDto;
-import com.finance.budget.view.dto.income.IncomeCommonRequestDto;
-import com.finance.budget.view.mapper.IncomeMapper;
+import com.finance.lib.budget.dto.ListDto;
+import com.finance.lib.budget.dto.income.IncomeCommonResponseDto;
+import com.finance.lib.budget.dto.income.IncomeCommonRequestDto;
+import com.finance.lib.budget.mapper.IncomeMapper;
 import com.finance.jwt.domain.OpenAccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,5 +66,8 @@ public class IncomeController {
     incomeService.delete(compositeId);
   }
 
-
+  @GetMapping("/api/v1/incomes/categories")
+  public IncomeCategory[] getIncomeCategories() {
+    return IncomeCategory.values();
+  }
 }

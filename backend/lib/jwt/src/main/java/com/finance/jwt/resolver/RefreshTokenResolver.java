@@ -1,6 +1,6 @@
 package com.finance.jwt.resolver;
 
-import com.finance.jwt.config.token.TokenMetadata;
+import com.finance.jwt.domain.token.TokenMetadata;
 import com.finance.jwt.domain.OpenRefreshToken;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
