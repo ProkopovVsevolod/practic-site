@@ -2,9 +2,8 @@ spring:
   profiles:
     default: dev
   application:
-    name: budget-service
+    name: analysis-service
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: update
     database: postgresql
@@ -17,8 +16,9 @@ spring:
       platform: postgres
 logging:
   level:
-    org.springframework.web: trace
+    org.springframework.http.converter.json: debug
+    org.springframework.web: debug
     org.springframework.security: debug
     com.finance.logger: debug
 server:
-  port: 8002
+  port: 8003

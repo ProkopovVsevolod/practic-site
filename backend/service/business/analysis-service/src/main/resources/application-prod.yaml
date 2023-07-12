@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://budget-database:5432/budget_db
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
