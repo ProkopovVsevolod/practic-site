@@ -1,4 +1,4 @@
-package com.finance.user.view.config;
+package com.finance.user.config;
 
 import com.finance.exception.ExceptionHandlerConfig;
 import org.springframework.context.annotation.Configuration;

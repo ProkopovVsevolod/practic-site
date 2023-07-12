@@ -1,4 +1,4 @@
-package com.finance.user.security.config;
+package com.finance.user.config;
 
 import com.finance.jwt.config.AuthenticationConfig;
 import com.finance.jwt.security.configurer.SecurityConfigurer;

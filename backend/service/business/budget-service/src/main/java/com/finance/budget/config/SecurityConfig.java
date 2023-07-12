@@ -1,4 +1,4 @@
-package com.finance.budget.security.config;
+package com.finance.budget.config;
 
 import com.finance.jwt.config.AccessJwtConfig;
 import com.finance.jwt.security.configurer.SecurityConfigurer;
@@ -33,10 +33,18 @@ public class SecurityConfig {
     reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/income-plans/{income-plan-id}").authenticated();
     reg.requestMatchers(POST, "/api/v1/budgets/{budget-id}/expense-plans/{expense-plan-id}").authenticated();
 
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/currency").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/incomes/{year}-{month}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/expenses/{year}-{month}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/balance").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/income-plans/{year}-{month}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/budgets/{budget-id}/expense-plans/{year}-{month}").authenticated();
+
     reg.requestMatchers(POST, "/api/v1/expenses").authenticated();
     reg.requestMatchers(GET, "/api/v1/expenses").authenticated();
     reg.requestMatchers(PUT, "/api/v1/expenses/{expense-id}").authenticated();
     reg.requestMatchers(DELETE, "/api/v1/expenses/{expense-id}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/expenses/categories").permitAll();
 
     reg.requestMatchers(POST, "/api/v1/expense-plans").authenticated();
     reg.requestMatchers(GET, "/api/v1/expense-plans").authenticated();
@@ -47,6 +55,7 @@ public class SecurityConfig {
     reg.requestMatchers(GET, "/api/v1/incomes").authenticated();
     reg.requestMatchers(PUT, "/api/v1/incomes/{income-id}").authenticated();
     reg.requestMatchers(DELETE, "/api/v1/incomes/{income-id}").authenticated();
+    reg.requestMatchers(GET, "/api/v1/incomes/categories").permitAll();
 
     reg.requestMatchers(POST, "/api/v1/income-plans").authenticated();
     reg.requestMatchers(GET, "/api/v1/income-plans").authenticated();
