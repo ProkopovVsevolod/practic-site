@@ -89,4 +89,45 @@ public class BudgetServiceImpl extends DependentByUserCrudService<Budget> implem
     budget.addExpensePlan(expensePlan);
     return budget;
   }
+
+  @Override
+  public Currency getBudgetCurrency(CompositeId compositeId) {
+    budgetValidationService.shouldPresent(compositeId);
+    return budgetRepository.getCurrency(compositeId);
+  }
+
+  @Override
+  public List<Income> getBudgetIncomesByPeriod(CompositeId compositeId, Period period) {
+    budgetValidationService.shouldPresent(compositeId);
+    return budgetRepository.incomesByPeriod(compositeId, period.startDateTime(), period.endDateTime());
+  }
+
+  @Override
+  public List<Expense> getBudgetExpensesByPeriod(CompositeId compositeId, Period period) {
+    budgetValidationService.shouldPresent(compositeId);
+    return budgetRepository.expensesByPeriod(compositeId, period.startDateTime(), period.endDateTime());
+  }
+
+  @Override
+  public Amount getBalance(CompositeId compositeId) {
+    Budget budget = budgetRepository.findById(compositeId)
+      .orElseThrow(() -> new IllegalArgumentException("Budget with id: " + compositeId + " not found!"));
+    return budget.getBalance();
+  }
+
+  @Override
+  public List<IncomePlan> getBudgetIncomePlansByPeriod(@Valid @NotNull CompositeId budgetCompositeId,
+                                                @Valid @NotNull Period period) {
+    return budgetRepository.getIncomePlans(budgetCompositeId).stream()
+      .filter(ip -> ip.getPeriod().equals(period))
+      .toList();
+  }
+
+  @Override
+  public List<ExpensePlan> getBudgetExpensePlansByPeriod(@Valid @NotNull CompositeId budgetCompositeId,
+                                                  @Valid @NotNull Period period) {
+    return budgetRepository.getExpensePlans(budgetCompositeId).stream()
+      .filter(ip -> ip.getPeriod().equals(period))
+      .toList();
+  }
 }
