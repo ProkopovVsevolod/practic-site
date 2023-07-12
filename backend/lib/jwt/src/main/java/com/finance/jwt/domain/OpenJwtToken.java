@@ -1,7 +1,7 @@
 package com.finance.jwt.domain;
 
-import com.finance.jwt.config.token.TokenMetadata;
-import com.finance.jwt.config.token.time.CommonInterval;
+import com.finance.jwt.domain.token.TokenMetadata;
+import com.finance.jwt.domain.token.time.CommonInterval;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.Getter;
@@ -30,15 +30,6 @@ public abstract class OpenJwtToken {
       .setIssuedAt(dateGroup.getCreated())
       .setExpiration(dateGroup.getExpired())
       .signWith(metadata.getSecretKey())
-      .compact();
-  }
-
-  protected static String generateBody(Claims claims, Date expired) {
-    return Jwts.builder()
-      .setClaims(claims)
-      .setIssuedAt(new Date())
-      .setExpiration(expired)
-      .signWith(TokenMetadata.REFRESH.getSecretKey())
       .compact();
   }
 
