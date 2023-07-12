@@ -1,0 +1,13 @@
+package com.finance.lib.budget.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CompositeIdDto {
+  private Long id;
+  private Long userId;
+}

@@ -18,6 +18,7 @@
     <module>logger</module>
     <module>jwt</module>
     <module>exception</module>
+    <module>domain</module>
   </modules>
 
   <properties>
