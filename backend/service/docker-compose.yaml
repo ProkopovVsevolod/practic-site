@@ -11,7 +11,7 @@ services:
     volumes:
       - ../scripts/wait.sh:/wait.sh
     entrypoint: [ sh, -c,
-      "java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar discovery-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+                  "java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar discovery-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
 
   gateway-service:
     container_name: gateway-service
@@ -45,8 +45,6 @@ services:
     restart: "on-failure"
     networks:
       - service-network
-    ports:
-      - "8001:8001"
     volumes:
       - ../scripts/wait.sh:/wait.sh
     entrypoint: [ sh, -c,
@@ -59,19 +57,38 @@ services:
     build: business/budget-service/
     image: budget-service
     depends_on:
+      - user-service
       - budget-database
       - discovery-service
     restart: "on-failure"
     networks:
       - service-network
-    ports:
-      - "8002:8002"
     volumes:
       - ../scripts/wait.sh:/wait.sh
     entrypoint: [ sh, -c,
       "sh ./wait.sh discovery-service 8761 & \
+      sh ./wait.sh user-service 8001 & \
       wait $! && \
       java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar budget-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
+
+  analysis-service:
+    container_name: analysis-service
+    build: business/analysis-service/
+    image: analysis-service
+    depends_on:
+      - user-service
+      - discovery-service
+      - budget-database
+    restart: "on-failure"
+    networks:
+      - service-network
+    volumes:
+      - ../scripts/wait.sh:/wait.sh
+    entrypoint: [ sh, -c,
+      "sh ./wait.sh discovery-service 8761 & \
+      sh ./wait.sh user-service 8001 & \
+      wait $! && \
+      java -Xmn30m -Xms60m -Xmx64m -Xss256k -jar analysis-service-1.0-SNAPSHOT.jar --spring.profiles.active=prod" ]
 
   user-database:
     container_name: user-database
