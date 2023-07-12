@@ -1,6 +1,6 @@
 package external;
 
-import com.finance.jwt.config.token.TokenMetadata;
+import com.finance.jwt.domain.token.TokenMetadata;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
