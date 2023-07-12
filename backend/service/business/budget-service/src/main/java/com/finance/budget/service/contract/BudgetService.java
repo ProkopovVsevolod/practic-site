@@ -6,8 +6,10 @@ import com.finance.lib.budget.domain.entity.Period;
 import com.finance.lib.budget.domain.entity.amount.Amount;
 import com.finance.lib.budget.domain.entity.amount.Currency;
 import com.finance.lib.budget.domain.entity.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
 import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
 import com.finance.lib.budget.domain.entity.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
 import com.finance.lib.budget.domain.entity.operation.income.IncomePlan;
 
 import java.util.List;
@@ -21,6 +23,6 @@ public interface BudgetService extends CrudService<Budget> {
   List<Income> getBudgetIncomesByPeriod(CompositeId compositeId, Period period);
   List<Expense> getBudgetExpensesByPeriod(CompositeId compositeId, Period period);
   Amount getBalance(CompositeId compositeId);
-  List<IncomePlan> getBudgetIncomePlansByPeriod(CompositeId budgetCompositeId, Period period);
-  List<ExpensePlan> getBudgetExpensePlansByPeriod(CompositeId budgetCompositeId, Period period);
+  IncomePlan getBudgetIncomePlans(CompositeId budgetCompositeId, Period period, IncomeCategory incomeCategory);
+  ExpensePlan getBudgetExpensePlans(CompositeId budgetCompositeId, Period period, ExpenseCategory expenseCategory);
 }

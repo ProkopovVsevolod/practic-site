@@ -51,16 +51,12 @@ public class AmountAnalysisService {
 
   public Amount incomeActualPlanDiffByCategory(CompositeId compositeId,
                                      Period period,
-                                     IncomeCategory incomeCategory,
+                                     IncomeCategory category,
                                      OpenAccessToken openAccessToken) {
-    List<IncomePlan> incomePlans = budgetServiceClient.getIncomePlans(compositeId.getId(), period, openAccessToken);
-    IncomePlan incomePlan = incomePlans.stream()
-      .filter(ip -> ip.getCategory().equals(incomeCategory))
-      .findAny()
-      .orElseThrow(() -> new IllegalArgumentException("Cannot find income plan by category: " + incomeCategory));
+    IncomePlan incomePlan = budgetServiceClient.getIncomePlan(compositeId.getId(), period, category, openAccessToken);
     List<Income> incomes = budgetServiceClient.getBudgetIncomesByPeriod(compositeId.getId(), period, openAccessToken);
     Amount actual = incomes.stream()
-      .filter(income -> income.getIncomeCategory().equals(incomeCategory))
+      .filter(income -> income.getIncomeCategory().equals(category))
       .map(Operation::getAmount)
       .reduce(Amount.empty(incomePlan.getLimit().getAmountCurrency()), Amount::increment);
     return incomePlan.getLimit().decrement(actual);
@@ -68,13 +64,9 @@ public class AmountAnalysisService {
 
   public Amount expenseActualPlanDiffByCategory(CompositeId compositeId,
                                       Period period,
-                                      ExpenseCategory expenseCategory,
+                                      ExpenseCategory category,
                                       OpenAccessToken openAccessToken) {
-    List<ExpensePlan> expensePlans = budgetServiceClient.getExpensePlans(compositeId.getId(), period, openAccessToken);
-    ExpensePlan expensePlan = expensePlans.stream()
-      .filter(ip -> ip.getCategory().equals(expenseCategory))
-      .findAny()
-      .orElseThrow(() -> new IllegalArgumentException("Cannot find expense plan by category: " + expenseCategory));
+    ExpensePlan expensePlan = budgetServiceClient.getExpensePlan(compositeId.getId(), period, category, openAccessToken);
     List<Expense> expenses = budgetServiceClient.getBudgetExpensesByPeriod(compositeId.getId(), period, openAccessToken);
     Amount actual = expenses.stream()
       .map(Operation::getAmount)

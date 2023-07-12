@@ -10,8 +10,10 @@ import com.finance.lib.budget.domain.entity.Period;
 import com.finance.lib.budget.domain.entity.amount.Amount;
 import com.finance.lib.budget.domain.entity.amount.Currency;
 import com.finance.lib.budget.domain.entity.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
 import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
 import com.finance.lib.budget.domain.entity.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
 import com.finance.lib.budget.domain.entity.operation.income.IncomePlan;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -116,18 +118,24 @@ public class BudgetServiceImpl extends DependentByUserCrudService<Budget> implem
   }
 
   @Override
-  public List<IncomePlan> getBudgetIncomePlansByPeriod(@Valid @NotNull CompositeId budgetCompositeId,
-                                                @Valid @NotNull Period period) {
-    return budgetRepository.getIncomePlans(budgetCompositeId).stream()
+  public IncomePlan getBudgetIncomePlans(@Valid @NotNull CompositeId id,
+                                         @Valid @NotNull Period period,
+                                         @Valid @NotNull IncomeCategory category) {
+    return budgetRepository.getIncomePlans(id).stream()
       .filter(ip -> ip.getPeriod().equals(period))
-      .toList();
+      .filter(ip -> ip.getCategory().equals(category))
+      .findAny()
+      .orElseThrow(() -> new IllegalArgumentException("Cannot find income plan by period " + period + " and category " + category));
   }
 
   @Override
-  public List<ExpensePlan> getBudgetExpensePlansByPeriod(@Valid @NotNull CompositeId budgetCompositeId,
-                                                  @Valid @NotNull Period period) {
-    return budgetRepository.getExpensePlans(budgetCompositeId).stream()
+  public ExpensePlan getBudgetExpensePlans(@Valid @NotNull CompositeId id,
+                                           @Valid @NotNull Period period,
+                                           @Valid @NotNull ExpenseCategory category) {
+    return budgetRepository.getExpensePlans(id).stream()
       .filter(ip -> ip.getPeriod().equals(period))
-      .toList();
+      .filter(ip -> ip.getCategory().equals(category))
+      .findAny()
+      .orElseThrow(() -> new IllegalArgumentException("Cannot find expense plan by period " + period + " and category " + category));
   }
 }
