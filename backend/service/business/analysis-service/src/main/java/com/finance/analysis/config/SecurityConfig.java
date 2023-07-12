@@ -25,7 +25,7 @@ public class SecurityConfig {
     reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/balance").authenticated();
     reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/diff/{year}-{month}:{duration}").authenticated();
     reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/operations/{year}-{month}:{duration}").authenticated();
-    reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/planned-by-actual-incomes/{year}-{month}").authenticated();
-    reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/planned-by-actual-expenses/{year}-{month}").authenticated();
+    reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/planned-by-actual-incomes/{year}-{month}/{category}").authenticated();
+    reg.requestMatchers("/api/v1/analysis/budgets/{budget-id}/planned-by-actual-expenses/{year}-{month}/{category}").authenticated();
   }
 }

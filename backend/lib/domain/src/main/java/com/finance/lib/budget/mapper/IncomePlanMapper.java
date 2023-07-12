@@ -59,4 +59,18 @@ public class IncomePlanMapper {
       incomeEnumMapper.convert(incomePlan.getCategory())
     );
   }
+
+  public List<IncomePlan> convertFromResponseDtoList(ListDto<IncomePlanCommonResponseDto> listDto) {
+    return listDto.getElements().stream()
+      .map(this::convertFromResponseDto)
+      .toList();
+  }
+
+  public IncomePlan convertFromResponseDto(IncomePlanCommonResponseDto dto) {
+    return new IncomePlan(
+      dto.getCompositeId().getUserId(),
+      amountMapper.convert(dto.getLimit()),
+      incomeEnumMapper.convert(dto.getCategory())
+    );
+  }
 }
