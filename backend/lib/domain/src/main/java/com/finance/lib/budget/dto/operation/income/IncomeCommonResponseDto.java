@@ -1,7 +1,7 @@
-package com.finance.lib.budget.dto.income;
+package com.finance.lib.budget.dto.operation.income;
 
 import com.finance.lib.budget.dto.CompositeIdDto;
-import com.finance.lib.budget.dto.OperationCommonResponseDto;
+import com.finance.lib.budget.dto.operation.OperationCommonResponseDto;
 import com.finance.lib.budget.dto.amount.AmountDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;

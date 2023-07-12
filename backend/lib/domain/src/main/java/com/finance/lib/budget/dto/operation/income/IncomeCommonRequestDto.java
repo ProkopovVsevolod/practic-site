@@ -1,4 +1,4 @@
-package com.finance.lib.budget.dto.income;
+package com.finance.lib.budget.dto.operation.income;
 
 import com.finance.lib.budget.dto.amount.AmountDto;
 import lombok.AllArgsConstructor;

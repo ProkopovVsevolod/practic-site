@@ -1,4 +1,4 @@
-package com.finance.lib.budget.dto.income;
+package com.finance.lib.budget.dto.operation.income;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
