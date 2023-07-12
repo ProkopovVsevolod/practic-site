@@ -1,15 +1,29 @@
 package com.finance.budget.view.controller;
 
-import com.finance.budget.domain.Budget;
-import com.finance.budget.domain.CompositeId;
 import com.finance.budget.service.contract.BudgetService;
-import com.finance.budget.view.dto.ListDto;
-import com.finance.budget.view.dto.budget.BudgetCommonRequestDto;
-import com.finance.budget.view.dto.budget.BudgetCommonResponseDto;
-import com.finance.budget.view.dto.budget.BudgetCreateResponseDto;
-import com.finance.budget.view.mapper.BudgetMapper;
+import com.finance.lib.budget.dto.DurationDto;
+import com.finance.lib.budget.dto.budget.BudgetCommonRequestDto;
+import com.finance.lib.budget.dto.budget.BudgetCommonResponseDto;
+import com.finance.lib.budget.dto.budget.BudgetCreateResponseDto;
+import com.finance.lib.budget.dto.expense.ExpenseCommonResponseDto;
+import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonResponseDto;
+import com.finance.lib.budget.dto.income.IncomeCommonResponseDto;
+import com.finance.lib.budget.dto.income.plan.IncomePlanCommonResponseDto;
 import com.finance.jwt.domain.OpenAccessToken;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.finance.lib.budget.domain.entity.Budget;
+import com.finance.lib.budget.domain.entity.CompositeId;
+import com.finance.lib.budget.domain.entity.Period;
+import com.finance.lib.budget.domain.entity.amount.Amount;
+import com.finance.lib.budget.domain.entity.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
+import com.finance.lib.budget.domain.entity.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.IncomePlan;
+import com.finance.lib.budget.dto.ListDto;
+import com.finance.lib.budget.dto.PeriodDto;
+import com.finance.lib.budget.dto.amount.AmountDto;
+import com.finance.lib.budget.dto.amount.CurrencyDto;
+import com.finance.lib.budget.mapper.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +31,17 @@ import java.util.List;
 
 @RestController
 @ResponseStatus(HttpStatus.OK)
+@RequiredArgsConstructor
 public class BudgetController {
   private final BudgetMapper budgetMapper;
   private final BudgetService budgetService;
+  private final AmountMapper amountMapper;
+  private final PeriodMapper periodMapper;
+  private final IncomeMapper incomeMapper;
+  private final ExpenseMapper expenseMapper;
+  private final IncomePlanMapper incomePlanMapper;
+  private final ExpensePlanMapper expensePlanMapper;
 
-  @Autowired
-  public BudgetController(BudgetMapper budgetMapper,
-                          BudgetService budgetService) {
-    this.budgetMapper = budgetMapper;
-    this.budgetService = budgetService;
-  }
 
   @PostMapping("/api/v1/budgets")
   @ResponseStatus(HttpStatus.CREATED)
@@ -104,5 +119,70 @@ public class BudgetController {
     CompositeId compositeId = new CompositeId(budgetId, userId);
     Budget updatedBudget = budgetService.addExpensePlan(compositeId, expensePlanId);
     return budgetMapper.convertBudgetToBudgetCommonResponseDto(updatedBudget);
+  }
+
+  @GetMapping("/api/v1/budgets/{budget-id}/currency")
+  public CurrencyDto getBudgetCurrency(@PathVariable("budget-id") long budgetId,
+                                       OpenAccessToken openAccessToken) {
+    CompositeId compositeId = new CompositeId(budgetId, openAccessToken.getUserId());
+    return amountMapper.convert(budgetService.getBudgetCurrency(compositeId));
+  }
+
+  @GetMapping("/api/v1/budgets/{budget-id}/incomes/{year}-{month}:{duration}")
+  public ListDto<IncomeCommonResponseDto> getBudgetIncomesByPeriod(@PathVariable("budget-id") long budgetId,
+                                                                   @PathVariable("year") int year,
+                                                                   @PathVariable("month") int month,
+                                                                   @PathVariable("duration") String duration,
+                                                                   OpenAccessToken openAccessToken) {
+    PeriodDto periodDto = new PeriodDto(year, month, DurationDto.createByName(duration));
+    CompositeId compositeId = new CompositeId(budgetId, openAccessToken.getUserId());
+    Period period = periodMapper.convert(periodDto);
+    List<Income> incomes = budgetService.getBudgetIncomesByPeriod(compositeId, period);
+    return incomeMapper.convertIncomeListToIncomeCommonResponseDtoList(incomes);
+  }
+
+  @GetMapping("/api/v1/budgets/{budget-id}/expenses/{year}-{month}:{duration}")
+  public ListDto<ExpenseCommonResponseDto> getBudgetExpensesByPeriod(@PathVariable("budget-id") long budgetId,
+                                                                     @PathVariable("year") int year,
+                                                                     @PathVariable("month") int month,
+                                                                     @PathVariable("duration") String duration,
+                                                                     OpenAccessToken openAccessToken) {
+    PeriodDto periodDto = new PeriodDto(year, month, DurationDto.createByName(duration));
+    CompositeId compositeId = new CompositeId(budgetId, openAccessToken.getUserId());
+    Period period = periodMapper.convert(periodDto);
+    List<Expense> expenses = budgetService.getBudgetExpensesByPeriod(compositeId, period);
+    return expenseMapper.convertExpenseListToExpenseCommonResponseDtoList(expenses);
+  }
+
+  @GetMapping("/api/v1/budgets/{budget-id}/balance")
+  public AmountDto getBalance(@PathVariable("budget-id") long budgetId,
+                              OpenAccessToken openAccessToken) {
+    CompositeId compositeId = new CompositeId(budgetId, openAccessToken.getUserId());
+    Amount balance = budgetService.getBalance(compositeId);
+    return amountMapper.convert(balance);
+  }
+
+  @GetMapping("/api/v1/budgets/{budget-id}/income-plans/{year}-{month}")
+  public ListDto<IncomePlanCommonResponseDto> getIncomePlans(@PathVariable("budget-id") long budgetId,
+                                                             @PathVariable("year") int year,
+                                                             @PathVariable("month") int month,
+                                                             OpenAccessToken openAccessToken) {
+    PeriodDto periodDto = new PeriodDto(year, month);
+    Period period = periodMapper.convert(periodDto);
+    CompositeId compositeId = new CompositeId(budgetId, openAccessToken.getUserId());
+    List<IncomePlan> plans = budgetService.getBudgetIncomePlansByPeriod(compositeId, period);
+    return incomePlanMapper.convertIncomePlanListToIncomePlanCommonResponseDtoList(plans);
+  }
+
+  @GetMapping("/api/v1/budgets/{budget-id}/expense-plans/{year}-{month}")
+  public ListDto<ExpensePlanCommonResponseDto> getExpensePlans(@PathVariable("budget-id") long budgetId,
+                                                               @PathVariable("year") int year,
+                                                               @PathVariable("month") int month,
+                                                               OpenAccessToken openAccessToken) {
+    PeriodDto periodDto = new PeriodDto(year, month);
+    Period period = periodMapper.convert(periodDto);
+    CompositeId compositeId = new CompositeId(budgetId, openAccessToken.getUserId());
+    List<ExpensePlan> plans = budgetService.getBudgetExpensePlansByPeriod(compositeId, period);
+    return expensePlanMapper.convertExpensePlanListToExpensePlanCommonResponseDtoList(plans);
   }
 }
