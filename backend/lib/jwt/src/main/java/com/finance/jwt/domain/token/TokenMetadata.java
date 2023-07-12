@@ -1,7 +1,7 @@
-package com.finance.jwt.config.token;
+package com.finance.jwt.domain.token;
 
-import com.finance.jwt.config.token.time.CommonInterval;
-import com.finance.jwt.config.token.time.Interval;
+import com.finance.jwt.domain.token.time.CommonInterval;
+import com.finance.jwt.domain.token.time.Interval;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
@@ -43,7 +43,6 @@ public enum TokenMetadata {
   public String toString() {
     return "TokenMetadata{" +
       "header='" + header + '\'' +
-      ", secretKey=[PROTECTED]" +
       ", validityDateInMilliseconds=" + validityDateInMilliseconds +
       '}';
   }

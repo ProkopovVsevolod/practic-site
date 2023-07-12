@@ -1,4 +1,4 @@
-package com.finance.jwt.config.token.time;
+package com.finance.jwt.domain.token.time;
 
 import lombok.Value;
 
