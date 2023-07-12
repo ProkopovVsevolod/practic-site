@@ -2,7 +2,7 @@ package com.finance.lib.budget.mapper.enums;
 
 import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
 import com.finance.lib.budget.dto.ListDto;
-import com.finance.lib.budget.dto.income.IncomeCategoryDto;
+import com.finance.lib.budget.dto.operation.income.IncomeCategoryDto;
 
 import java.util.ArrayList;
 import java.util.List;

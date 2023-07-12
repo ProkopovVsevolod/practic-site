@@ -6,16 +6,18 @@ import com.finance.lib.budget.domain.entity.Period;
 import com.finance.lib.budget.domain.entity.amount.Amount;
 import com.finance.lib.budget.domain.entity.amount.Currency;
 import com.finance.lib.budget.domain.entity.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
 import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
 import com.finance.lib.budget.domain.entity.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
 import com.finance.lib.budget.domain.entity.operation.income.IncomePlan;
 import com.finance.lib.budget.dto.ListDto;
 import com.finance.lib.budget.dto.amount.AmountDto;
 import com.finance.lib.budget.dto.amount.CurrencyDto;
-import com.finance.lib.budget.dto.expense.ExpenseCommonResponseDto;
-import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonResponseDto;
-import com.finance.lib.budget.dto.income.IncomeCommonResponseDto;
-import com.finance.lib.budget.dto.income.plan.IncomePlanCommonResponseDto;
+import com.finance.lib.budget.dto.operation.expense.ExpenseCommonResponseDto;
+import com.finance.lib.budget.dto.operation.expense.plan.ExpensePlanCommonResponseDto;
+import com.finance.lib.budget.dto.operation.income.IncomeCommonResponseDto;
+import com.finance.lib.budget.dto.operation.income.plan.IncomePlanCommonResponseDto;
 import com.finance.lib.budget.mapper.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -50,8 +52,6 @@ public class BudgetServiceClient {
 
   private static class ListDtoIncomeCommonResponseDtoTypeReference extends ParameterizedTypeReference<ListDto<IncomeCommonResponseDto>> { }
   private static class ListDtoExpenseCommonResponseDtoTypeReference extends ParameterizedTypeReference<ListDto<ExpenseCommonResponseDto>> { }
-  private static class ListDtoIncomePlanCommonResponseDtoTypeReference extends ParameterizedTypeReference<ListDto<IncomePlanCommonResponseDto>> { }
-  private static class ListDtoExpensePLanCommonResponseDtoTypeReference extends ParameterizedTypeReference<ListDto<ExpensePlanCommonResponseDto>> { }
 
   public Currency getBudgetCurrency(Long budgetId, OpenAccessToken openAccessToken) {
     CurrencyDto dto = client.get()
@@ -99,27 +99,33 @@ public class BudgetServiceClient {
     return amountMapper.convert(amountDto);
   }
 
-  public List<IncomePlan> getIncomePlans(Long budgetId, Period period, OpenAccessToken openAccessToken) {
+  public IncomePlan getIncomePlan(Long budgetId,
+                                  Period period,
+                                  IncomeCategory category,
+                                  OpenAccessToken openAccessToken) {
     YearMonth start = period.getStart();
-    ListDto<IncomePlanCommonResponseDto> listDto = client.get()
-      .uri("/api/v1/budgets/" + budgetId + "/income-plans/" + start.getYear() + "-" + start.getMonthValue())
+    IncomePlanCommonResponseDto dto = client.get()
+      .uri("/api/v1/budgets/" + budgetId + "/income-plans/" + start.getYear() + "-" + start.getMonthValue() + "/" + category.getName())
       .header(TokenMetadata.ACCESS.getHeader(), "Bearer " + openAccessToken.getBody())
       .retrieve()
-      .bodyToMono(new ListDtoIncomePlanCommonResponseDtoTypeReference())
+      .bodyToMono(IncomePlanCommonResponseDto.class)
       .blockOptional()
       .orElseThrow(() -> new IllegalArgumentException("Cannot get income plans by budgetId: " + budgetId));
-    return incomePlanMapper.convertFromResponseDtoList(listDto);
+    return incomePlanMapper.convertFromResponseDto(dto);
   }
 
-  public List<ExpensePlan> getExpensePlans(Long budgetId, Period period, OpenAccessToken openAccessToken) {
+  public ExpensePlan getExpensePlan(Long budgetId,
+                                    Period period,
+                                    ExpenseCategory category,
+                                    OpenAccessToken openAccessToken) {
     YearMonth start = period.getStart();
-    ListDto<ExpensePlanCommonResponseDto> listDto = client.get()
-      .uri("/api/v1/budgets/" + budgetId + "/expense-plans/" + start.getYear() + "-" + start.getMonthValue())
+    ExpensePlanCommonResponseDto dto = client.get()
+      .uri("/api/v1/budgets/" + budgetId + "/expense-plans/" + start.getYear() + "-" + start.getMonthValue() + "/" + category.getName())
       .header(TokenMetadata.ACCESS.getHeader(), "Bearer " + openAccessToken.getBody())
       .retrieve()
-      .bodyToMono(new ListDtoExpensePLanCommonResponseDtoTypeReference())
+      .bodyToMono(ExpensePlanCommonResponseDto.class)
       .blockOptional()
       .orElseThrow(() -> new IllegalArgumentException("Cannot get expense plans by budgetId: " + budgetId));
-    return expensePlanMapper.convertFromResponseDtoList(listDto);
+    return expensePlanMapper.convertFromResponseDto(dto);
   }
 }

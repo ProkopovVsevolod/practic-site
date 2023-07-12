@@ -3,9 +3,9 @@ package com.finance.lib.budget.mapper;
 import com.finance.lib.budget.domain.entity.operation.expense.Expense;
 import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
 import com.finance.lib.budget.dto.ListDto;
-import com.finance.lib.budget.dto.expense.ExpenseCategoryDto;
-import com.finance.lib.budget.dto.expense.ExpenseCommonRequestDto;
-import com.finance.lib.budget.dto.expense.ExpenseCommonResponseDto;
+import com.finance.lib.budget.dto.operation.expense.ExpenseCategoryDto;
+import com.finance.lib.budget.dto.operation.expense.ExpenseCommonRequestDto;
+import com.finance.lib.budget.dto.operation.expense.ExpenseCommonResponseDto;
 import com.finance.lib.budget.mapper.enums.ExpenseEnumMapper;
 import lombok.RequiredArgsConstructor;
 

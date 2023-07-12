@@ -3,8 +3,8 @@ package com.finance.lib.budget.mapper.enums;
 import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
 import com.finance.lib.budget.domain.entity.operation.expense.PaymentMethod;
 import com.finance.lib.budget.dto.ListDto;
-import com.finance.lib.budget.dto.expense.ExpenseCategoryDto;
-import com.finance.lib.budget.dto.expense.PaymentMethodDto;
+import com.finance.lib.budget.dto.operation.expense.ExpenseCategoryDto;
+import com.finance.lib.budget.dto.operation.expense.PaymentMethodDto;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,14 +18,10 @@ public class PeriodDto {
                    @JsonProperty("duration") DurationDto duration) {
     this.year = year;
     this.month = month;
-    this.duration = duration;
+    this.duration = duration == null ? DurationDto.MONTH : duration;
   }
 
-  @JsonCreator
-  public PeriodDto(@JsonProperty("year") int year,
-                   @JsonProperty("month") int month) {
-    this.year = year;
-    this.month = month;
-    this.duration = DurationDto.MONTH;
+  public PeriodDto(int year, int month) {
+    this(year, month, null);
   }
 }
