@@ -7,14 +7,20 @@ import com.finance.lib.budget.domain.entity.Operation;
 import com.finance.lib.budget.domain.entity.Period;
 import com.finance.lib.budget.domain.entity.amount.Amount;
 import com.finance.lib.budget.domain.entity.amount.Currency;
+import com.finance.lib.budget.domain.entity.operation.expense.Expense;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpenseCategory;
+import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
+import com.finance.lib.budget.domain.entity.operation.income.Income;
+import com.finance.lib.budget.domain.entity.operation.income.IncomeCategory;
+import com.finance.lib.budget.domain.entity.operation.income.IncomePlan;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional
@@ -23,12 +29,9 @@ public class AmountAnalysisService {
   private final BudgetServiceClient budgetServiceClient;
   private final OperationAnalysisService operationAnalysisService;
 
-//TODO
-  public Amount calcBalance(@Valid @NotNull CompositeId compositeId) {
-//    Budget budget = budgetRepository.findById(compositeId)
-//      .orElseThrow(() -> new IllegalArgumentException("Budget not found by id: " + compositeId));
-//    return budget.getBalance();
-    throw new NotImplementedException();
+  public Amount calcBalance(@Valid @NotNull CompositeId compositeId,
+                            OpenAccessToken openAccessToken) {
+    return budgetServiceClient.getBalance(compositeId.getId(), openAccessToken);
   }
 
   public Amount calcDiffByPeriod(@Valid @NotNull CompositeId budgetCompositeId,
@@ -46,25 +49,36 @@ public class AmountAnalysisService {
     return incomeAmount.decrement(expenseAmount);
   }
 
-  //TODO
-  public Amount incomeActualPlanDiff(CompositeId compositeId, Period period) {
-//    List<Income> incomes = operationAnalysisService.incomesByPeriod(compositeId, period);
-//    IncomePlan incomePlan = operationAnalysisService.incomePlanByPeriod(compositeId, period);
-//    Amount actual = incomes.stream()
-//      .map(Operation::getAmount)
-//      .reduce(Amount.empty(incomePlan.getLimit().getAmountCurrency()), Amount::increment);
-//    return incomePlan.getLimit().decrement(actual);
-    throw new NotImplementedException();
+  public Amount incomeActualPlanDiffByCategory(CompositeId compositeId,
+                                     Period period,
+                                     IncomeCategory incomeCategory,
+                                     OpenAccessToken openAccessToken) {
+    List<IncomePlan> incomePlans = budgetServiceClient.getIncomePlans(compositeId.getId(), period, openAccessToken);
+    IncomePlan incomePlan = incomePlans.stream()
+      .filter(ip -> ip.getCategory().equals(incomeCategory))
+      .findAny()
+      .orElseThrow(() -> new IllegalArgumentException("Cannot find income plan by category: " + incomeCategory));
+    List<Income> incomes = budgetServiceClient.getBudgetIncomesByPeriod(compositeId.getId(), period, openAccessToken);
+    Amount actual = incomes.stream()
+      .filter(income -> income.getIncomeCategory().equals(incomeCategory))
+      .map(Operation::getAmount)
+      .reduce(Amount.empty(incomePlan.getLimit().getAmountCurrency()), Amount::increment);
+    return incomePlan.getLimit().decrement(actual);
   }
 
-  //TODO
-  public Amount expenseActualPlanDiff(CompositeId compositeId, Period period) {
-//    List<Expense> expenses = operationAnalysisService.expensesByPeriod(compositeId, period);
-//    ExpensePlan expensePlan = operationAnalysisService.expensePlanByPeriod(compositeId, period);
-//    Amount actual = expenses.stream()
-//      .map(Operation::getAmount)
-//      .reduce(Amount.empty(expensePlan.getLimit().getAmountCurrency()), Amount::increment);
-//    return expensePlan.getLimit().decrement(actual);
-    throw new NotImplementedException();
+  public Amount expenseActualPlanDiffByCategory(CompositeId compositeId,
+                                      Period period,
+                                      ExpenseCategory expenseCategory,
+                                      OpenAccessToken openAccessToken) {
+    List<ExpensePlan> expensePlans = budgetServiceClient.getExpensePlans(compositeId.getId(), period, openAccessToken);
+    ExpensePlan expensePlan = expensePlans.stream()
+      .filter(ip -> ip.getCategory().equals(expenseCategory))
+      .findAny()
+      .orElseThrow(() -> new IllegalArgumentException("Cannot find expense plan by category: " + expenseCategory));
+    List<Expense> expenses = budgetServiceClient.getBudgetExpensesByPeriod(compositeId.getId(), period, openAccessToken);
+    Amount actual = expenses.stream()
+      .map(Operation::getAmount)
+      .reduce(Amount.empty(expensePlan.getLimit().getAmountCurrency()), Amount::increment);
+    return expensePlan.getLimit().decrement(actual);
   }
 }

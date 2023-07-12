@@ -1,10 +1,10 @@
 package com.finance.lib.budget.mapper;
 
+import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
+import com.finance.lib.budget.dto.ListDto;
 import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonRequestDto;
 import com.finance.lib.budget.dto.expense.plan.ExpensePlanCommonResponseDto;
 import com.finance.lib.budget.mapper.enums.ExpenseEnumMapper;
-import com.finance.lib.budget.domain.entity.operation.expense.ExpensePlan;
-import com.finance.lib.budget.dto.ListDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
@@ -48,6 +48,20 @@ public class ExpensePlanMapper {
       userId,
       amountMapper.convert(expensePlanCommonRequestDto.getLimit()),
       expenseEnumMapper.convert(expensePlanCommonRequestDto.getCategory())
+    );
+  }
+
+  public List<ExpensePlan> convertFromResponseDtoList(ListDto<ExpensePlanCommonResponseDto> listDto) {
+    return listDto.getElements().stream()
+      .map(this::convertFromResponseDto)
+      .toList();
+  }
+
+  public ExpensePlan convertFromResponseDto(ExpensePlanCommonResponseDto dto) {
+    return new ExpensePlan(
+      dto.getCompositeId().getUserId(),
+      amountMapper.convert(dto.getLimit()),
+      expenseEnumMapper.convert(dto.getCategory())
     );
   }
 }
