@@ -1,5 +1,5 @@
-# Finance API
->API для управления и анализа бюджетов  
+# Finance
+>Веб-приложение для управления и анализа бюджетов  
 # Подготовка к сборке
 - установить [JDK](https://jdk.java.net/archive/) 17 версии и выше
 - установить [Docker](https://docs.docker.com/engine/install/)
