@@ -57,7 +57,6 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>6.1.0</version>
     </dependency>
     <dependency>
       <groupId>jakarta.servlet</groupId>
@@ -66,7 +65,6 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-jpa</artifactId>
-      <version>3.1.0</version>
     </dependency>
     <dependency>
       <groupId>jakarta.persistence</groupId>
@@ -75,7 +73,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
-      <version>3.1.0</version>
     </dependency>
   </dependencies>
 </project>
